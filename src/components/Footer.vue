@@ -10,16 +10,16 @@ export default {
 
 
 <template>
-    <div class="footer-container d-flex p-3 pt-4 text-4 flex-column justify-content-center mt-3">
-        <ul class="d-flex align-items-center justify-content-evenly">
-            <li><a href="#">О нас</a></li>
-            <li><a href="#">Гарантии</a></li>
-            <li><a href="#">Соц. Сети</a></li>
-            <li><a href="#">Лицензионное соглашение</a></li>
-            <li><a href="#">Политика конфидициальности</a></li>
-        </ul>
-        <span class="text-center mt-2 text-4">Все права защищены ©</span>
-    </div>
+        <div class="footer-container d-flex p-3 pt-4 text-4 flex-column justify-content-center mt-3">
+            <ul class="d-flex align-items-center justify-content-evenly">
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Гарантии</a></li>
+                <li><a href="#">Соц. Сети</a></li>
+                <li><a href="#">Лицензионное соглашение</a></li>
+                <li><a href="#">Политика конфидициальности</a></li>
+            </ul>
+            <span class="text-center mt-2 text-4">Все права защищены ©</span>
+        </div>
 </template>
 
 

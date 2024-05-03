@@ -74,7 +74,7 @@ export default {
       </div>
     </div>
   </div>
-  <Footer />
+    <Footer />
 </template>
 
 <style scoped>
@@ -85,6 +85,7 @@ a:hover {
 
 .cart-container {
   margin: 0 30px;
+  min-height: calc(100vh - 330px);
 }
 
 .card img {

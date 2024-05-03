@@ -97,6 +97,10 @@ export default {
 </template>
 
 <style scoped>
+.card-container {
+    min-height: calc(100vh - 325px);
+}
+
 .img-block img {
     max-width: 600px;
     max-height: 700px;

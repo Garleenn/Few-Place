@@ -145,6 +145,10 @@ router-link:hover, a:hover {
     color: #000;
 }
 
+.main-container {
+  min-height: calc(100vh - 360px);
+}
+
 .image-block {
     width: 180px;
     height: 180px;
