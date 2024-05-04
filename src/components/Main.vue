@@ -103,7 +103,7 @@ export default {
                         :class="{ 'active-btn': is6 }" class="btn btn-outline-primary">Только новые</button>
                     <h5 class="mb-0">Категория: </h5>
                     <select class="form-select" v-model="category" aria-label="Default select example">
-                        <option selected="selected">Выбирите категорию</option>
+                        <option selected="selected" :value="null">Выбирите категорию</option>
                         <option value="Техника">Техника</option>
                         <option value="Одежда">Одежда</option>
                         <option value="Для дома">Для дома</option>

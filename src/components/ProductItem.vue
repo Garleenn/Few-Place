@@ -4,6 +4,9 @@ import Footer from '../components/Footer.vue';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
+
+import dayjs from 'dayjs';
+
 export default {
     components: { Header, Footer },
     data() {
@@ -12,6 +15,9 @@ export default {
 
             error: '',
             action: '',
+            inCart: 'Добавить в корзину!',
+
+            isAdded: false
         }
     },
     mounted() {
@@ -21,6 +27,7 @@ export default {
         async loadProduct() {
             let res = await axios.get(`/product?id=${this.$route.query.id}`);
             this.product = res.data;
+            this.dayJs();
         },
 
         async addToCart() {
@@ -36,8 +43,12 @@ export default {
                     isGood: this.product.isGood,
                     countHas: this.product.countHas,
                 });
+                this.isAdded = true;
+                this.inCart = 'Добавленно!'
             } catch (err) {
-                this.error = `Произошла ошибка. Код ошибки: ${err.response.status}`;
+                this.isAdded = true;
+                this.inCart = 'Товар уже в корзине!'
+                this.error = `Невозможно добавить товар! Код ошибки: ${err.response.status}`;
             }
         },
 
@@ -51,6 +62,11 @@ export default {
             } catch(err) {
                 this.error = `Произошла ошибка. Код ошибки: ${err.response.status}`;
             }
+        },
+
+        dayJs() {
+            let day = dayjs(this.product.createdAt).format('DD.MM.YYYY в HH:mm');
+            this.product.createdAt = day;
         }
     }
 }
@@ -76,8 +92,8 @@ export default {
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
-            <button v-if="!product.isMine" @click="addToCart" type="button" class="btn btn-outline-primary">
-                Добавить в корзину!</button>
+            <button v-if="!product.isMine" :disabled="isAdded" @click="addToCart" type="button" class="btn btn-outline-primary">
+                {{ inCart }}</button>
             <button v-else disabled type="button" class="btn btn-outline-primary">Это ваш товар</button>
             <h4 v-if="error" class="text-danger">{{ error }}</h4>
             <div class="btn-group" v-if="product.isMine">

@@ -1,4 +1,4 @@
-// project on: express cors mongoose axios socket.io socket.io-client nodemon vue-router
+// project on: express cors mongoose axios socket.io socket.io-client nodemon vue-router dayjs
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -225,6 +225,63 @@ app.delete('/cart', async (req, res) => {
         await Cart.deleteOne({_id: id});
         res.sendStatus(200);
     } catch(err) {
+        res.sendStatus(400);
+    }
+});
+
+//Вход пользователей и их регистрация
+
+const userSchema = new mongoose.Schema({
+    login: {
+        type: String,
+        require: true,
+        unique: true,
+    },
+    email: {
+        type: String,
+        require: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        require: true,
+        min: 6,
+        max: 24,
+    },
+});
+
+const User = mongoose.model('user', userSchema);
+
+
+app.get('/users', async (req, res) => {
+    const data = await User.find();
+    res.send(data).status(200);
+});
+
+app.get('/user', async (req, res) => {
+    const { login, password } = req.query;
+    const data = User.findOne({login: login, password: password});
+
+    if(data) {
+        res.send(data).status(200);
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+app.post('/users', async (req, res) => {
+    const { login, email, password } = req.body;
+
+    const newUser = new User({
+        login: login,
+        email: email,
+        password: password,
+    });
+
+    try {
+        await newUser.save();
+        res.sendStatus(201);
+    } catch {
         res.sendStatus(400);
     }
 });

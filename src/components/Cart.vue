@@ -70,7 +70,9 @@ export default {
         </button>
       </div>
       <div class="bt mt-3 d-flex justify-content-end w-100" v-if="this.products.length != 0">
-        <button type="button" class="btn btn-outline-primary p-2 px-5">Заказать!</button>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">
+          <button type="button" class="btn btn-outline-primary p-2 px-5">Заказать!</button>
+        </a>
       </div>
     </div>
   </div>
@@ -89,8 +91,9 @@ a:hover {
 }
 
 .card img {
-  max-width: 500px !important;
-  height: 300px !important;
+  width: 300px !important;
+  max-height: 400px !important;
+  text-align: center
 }
 
 .card {
@@ -104,7 +107,7 @@ a:hover {
 }
 
 .btn-closes img {
-  width: 30px;
+  width: 30px !important;
   height: 30px !important;
   height: fit-content;
 }

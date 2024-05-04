@@ -31,7 +31,7 @@ export default {
         <nav class="nav ms-5">
             <ul class="d-flex gap-5 list-unstyled mb-0">
                 <li class="fs-5"><routerLink to="/">Главная</routerLink></li>
-                <li class="fs-5"><routerLink to="/Profile">Профиль</routerLink></li>
+                <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
                 <li class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
             </ul>
         </nav>
