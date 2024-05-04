@@ -58,6 +58,8 @@ const productSchema = new mongoose.Schema({
     timestamps: true,
 });
 
+productSchema.index({'$**': 'text'});
+
 let Product = mongoose.model('product', productSchema);
 
 app.get('/products', async (req, res) => {
@@ -67,7 +69,6 @@ app.get('/products', async (req, res) => {
     const dPrice = Number(req.query.dPrice); // цена до...
     
     const asNew = req.query.asNew; // Б\У или новое
-    const title = req.query.title; // название
     const category = req.query.category; // категория
 
     let sorting = {};
@@ -82,8 +83,6 @@ app.get('/products', async (req, res) => {
         search.isGood = asNew;
     } if (category) {
         search.category = category;
-    } if (title) {
-        search.title = title;
     } if (sPrice) {
         search.price = {$gte: sPrice};
     } if (dPrice) {
@@ -162,7 +161,7 @@ app.get('/product', async (req, res) => {
 
 app.get('/productsTitle', async (req, res) => {
     const title = req.query.title;
-    let data = await Product.find({"title": title});
+    let data = await Product.find({$text: {$search: title}});
     res.send(data).status(200);
 });
 
@@ -260,9 +259,8 @@ app.get('/users', async (req, res) => {
 
 app.get('/user', async (req, res) => {
     const { login, password } = req.query;
-    const data = User.findOne({login: login, password: password});
-
-    if(data) {
+    const data = User.findOne({login: login});
+    if(data.password == password) {
         res.send(data).status(200);
     } else {
         res.sendStatus(400);

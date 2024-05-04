@@ -27,7 +27,7 @@ export default {
                         password: this.password,
                     });
                     this.error = 'Аккаунт создан!';
-                    window.location.href = `http://localhost:5173/Profile?login=${this.login}&password=${this.password}`;
+                    window.location.href = `http://localhost:5173/Profile?login=${this.login}`;
                 } catch(err) {
                     this.error = 'Логин должен быть уникальным, минимальная длинна пароля должна составлять 6 символов!';
                 }

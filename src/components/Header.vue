@@ -11,10 +11,12 @@ export default {
     },
     methods: {
         async sendProduct() {
-            let res = await axios.get(`/productsTitle?title=${this.title}`);
-            this.productsTitle = res.data;
-            
-            this.$emit('productsTitle', this.productsTitle);
+            if(this.title != ``) {
+                let res = await axios.get(`/productsTitle?title=${this.title}`);
+                this.productsTitle = res.data;
+                
+                this.$emit('productsTitle', this.productsTitle);
+            }
         }
     }
 }
