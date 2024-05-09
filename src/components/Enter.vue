@@ -20,7 +20,10 @@ export default {
 .log-container {
     min-height: calc(100vh - 325px);
 }
-button:hover, nk:hover, a:hover {
+button:hover a {
     color: #fff !important;
+}
+a {
+    color: #000 !important;
 }
 </style>

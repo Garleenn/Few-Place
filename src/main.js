@@ -10,6 +10,7 @@ import ProductItem from '../src/components/ProductItem.vue'
 import Login from '../src/components/Login.vue'
 import Registration from '../src/components/Registration.vue'
 import Profile from '../src/components/Profile.vue'
+import CreateProduct from '../src/components/CreateProduct.vue'
 
 import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
@@ -48,6 +49,11 @@ const router = createRouter({
     name: 'Registration',
     path: '/Registration',
     component: Registration
+  },
+  {
+    name: 'CreateProduct',
+    path: '/CreateProduct',
+    component: CreateProduct
   },
 ],
 })

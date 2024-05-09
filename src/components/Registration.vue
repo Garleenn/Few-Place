@@ -12,8 +12,10 @@ export default {
             email: ``,
             password: ``,
             password2: ``,
+            role: null,
 
             error: ``,
+            is1: false, is2: false,
         }
     }, 
 
@@ -25,6 +27,7 @@ export default {
                         login: this.login,
                         email: this.email,
                         password: this.password,
+                        role: this.role,
                     });
                     this.error = 'Аккаунт создан!';
                     window.location.href = `http://localhost:5173/Profile?login=${this.login}`;
@@ -59,6 +62,10 @@ export default {
         <label class="form-label">Повторите пароль: </label>
         <input type="password" class="form-control" v-model="password2">
     </div>
+    <div class="d-flex flex-row mb-3 gap-2">
+        <button type="button" :class="{ 'active-btn': is1 }" class="btn btn-outline-primary rounded-3" @click="this.role = 'покупатель'; this.is2 = false; this.is1 = true">Я покупатель</button>
+        <button type="button" :class="{ 'active-btn': is2 }" class="btn btn-outline-primary rounded-3" @click="this.role = 'продавец'; this.is1 = false; this.is2 = true">Я продавец</button>
+    </div>
     <span v-if="error" class="text-danger mb-2">{{ error }}</span>
     <button type="submit" class="btn btn-outline-success px-5">Войти</button>
     <router-link class="mt-3" to="/Login">Уже есть аккаунт? Войдите!</router-link>
@@ -69,5 +76,8 @@ export default {
 <style scoped>
 .log-container {
     min-height: calc(100vh - 325px);
+}
+.active-btn {
+    background-color: #7cfbff !important;
 }
 </style>

@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 const port = 3005;
 
-app.use(cors(`http://localhost:3005`));
+app.use(cors(`http://localhost:${port}`));
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -50,10 +50,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    brandImage: {
-        type: String,
-    },
+    brandImage: String,
     countHas: Number,
+    author: {
+        type: String,
+        required: true,
+    }
 }, {
     timestamps: true,
 });
@@ -95,8 +97,18 @@ app.get('/products', async (req, res) => {
     res.send(data).status(200);
 });
 
+app.get('/myProducts', async (req, res) => {
+    const author = req.query.author;
+    let data = await Product.find({author: author});
+    if(data) {
+        res.send(data).status(200);
+    } else {
+        res.send('Товаров не найдено').status(200);
+    }
+})
+
 app.post('/products', async (req, res) => {
-    const { title, description, price, category, image, isGood } = req.body;
+    const { title, description, price, category, image, isGood, countHas, brand, author } = req.body;
 
     const product = new Product({
         title: title,
@@ -106,16 +118,16 @@ app.post('/products', async (req, res) => {
         image: image,
         isMine: true,
         isGood: isGood,
-        countHas: 1,
-    }, {
-        timestamps: true,
+        countHas: countHas,
+        brand: brand,
+        author: author,
     });
 
     try {
         await product.save();
         res.sendStatus(201);
-    } catch(err) {
-        res.send(err).status(400);
+    } catch {
+        res.sendStatus(400);
     }
 });
 
@@ -141,7 +153,6 @@ app.put('/products', async (req, res) => {
         product.image = image;
         product.isGood = isGood;
         product.countHas = countHas;
-
     try {
         await product.save();
         res.sendStatus(201);
@@ -247,6 +258,13 @@ const userSchema = new mongoose.Schema({
         min: 6,
         max: 24,
     },
+    avaImage: String,
+    role:{
+        type: String,
+        require: true,
+    },
+}, {
+    timestamps: true
 });
 
 const User = mongoose.model('user', userSchema);
@@ -258,22 +276,24 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/user', async (req, res) => {
-    const { login, password } = req.query;
-    const data = User.findOne({login: login});
-    if(data.password == password) {
-        res.send(data).status(200);
+    const login = req.query.login;
+    const data = await User.findOne({login: login});
+    if(data) {
+            res.send(data).status(200);
     } else {
         res.sendStatus(400);
     }
 });
 
 app.post('/users', async (req, res) => {
-    const { login, email, password } = req.body;
+    const { login, email, password, role } = req.body;
 
     const newUser = new User({
         login: login,
         email: email,
         password: password,
+        avaImage: "https://yt3.googleusercontent.com/ytc/AIf8zZTOqVAj1luCxSiohOyyV5yKwi0DDFy6PruvGoCEeg=s900-c-k-c0x00ffffff-no-rj",
+        role: role,
     });
 
     try {

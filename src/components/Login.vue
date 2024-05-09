@@ -10,20 +10,25 @@ export default {
         return {
             login: ``,
             password: ``,
+
+            error: ``,
         }
     }, 
 
     methods: {
         async LogIn() {
             try {
-                await axios.get('/user', {
+                let res = await axios.get('/user', {
                     params: {
                         login: this.login,
-                        password: this.password,
-                    }
+                    },
                 });
-                this.error = 'Вход выполнен!';
-                window.location.href = `http://localhost:5173/Profile?login=${this.login}`;
+                if(res.data.password == this.password) {
+                    this.error = 'Вход выполнен!';
+                    window.location.href = `http://localhost:5173/Profile?login=${this.login}`;
+                } else {
+                    this.error = 'Пароль неверен!';
+                }
             } catch(err) {
                 this.error = 'Логин или пароль неверны!';
             }
@@ -44,6 +49,7 @@ export default {
         <label for="exampleFormControlInput1" class="form-label">Ваш пароль: </label>
         <input type="password" class="form-control" id="exampleFormControlInput1" v-model="password">
     </div>
+    <span v-if="error" class="text-danger mb-2">{{ error }}</span>
     <button type="submit" class="btn btn-outline-success px-5">Войти</button>
     <router-link to="/Registration" class="mt-3">Ещё нет аккаунта? Зарегистрируйтесь!</router-link>
 </form>

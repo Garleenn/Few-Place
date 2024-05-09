@@ -56,9 +56,10 @@ export default {
             try {
                 await axios.delete('/products', {
                     params: {
-                        id: this.product.id,
+                        id: this.product._id,
                     }
                 });
+                window.location.href = `http://localhost:5173/`;
             } catch(err) {
                 this.error = `Произошла ошибка. Код ошибки: ${err.response.status}`;
             }
@@ -89,6 +90,9 @@ export default {
             </span>
             <span class="d-flex align-items-center gap-2" v-else>Состояние:
                 <span class="badge text-bg-secondary w-fit">Б/У</span>
+            </span>
+            <span class="d-flex align-items-center gap-2">Автор:
+                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}`">{{ product.author }}</router-link></span>
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>

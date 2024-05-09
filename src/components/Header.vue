@@ -49,7 +49,7 @@ export default {
             <div class="offcanvas-body">
                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
                     <li class="fs-5"><routerLink to="/">Главная</routerLink></li>
-                    <li class="fs-5"><routerLink to="/Profile">Профиль</routerLink></li>
+                    <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
                     <li class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
                 </ul>
             </div>
