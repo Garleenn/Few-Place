@@ -92,7 +92,7 @@ export default {
                 <span class="badge text-bg-secondary w-fit">Б/У</span>
             </span>
             <span class="d-flex align-items-center gap-2">Автор:
-                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}`">{{ product.author }}</router-link></span>
+                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}&amI=false`">{{ product.author }}</router-link></span>
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>

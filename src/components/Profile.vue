@@ -57,7 +57,7 @@ export default {
                         <h2 class="mb-0">{{ user.login }}</h2>
                     </div>
                 </div>
-                <nav class="d-flex flex-column mt-4">
+                <nav class="d-flex flex-column mt-4" v-if="this.$route.query.amI == 'true'">
                     <ul class="ps-0 gap-1 d-flex flex-column">
                         <li class="fw-bold mb-1">Действия: </li>
                         <li><router-link>Редактировать профиль</router-link></li>
@@ -69,7 +69,7 @@ export default {
                     </ul>
                 </nav>
 
-                <button class="btn right-menu-btn d-none" type="button" data-bs-toggle="offcanvas"
+                <button class="btn right-menu-btn d-none" type="button" data-bs-toggle="offcanvas" v-if="this.$route.query.amI == 'true'"
                     data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><img src="../assets/close.svg" alt="x">
                 </button>
 
@@ -130,8 +130,7 @@ export default {
 </template>
 
 <style scoped>
-router-link:hover,
-a {
+router-link:hover {
     color: #000 !important;
 }
 
@@ -159,8 +158,9 @@ a {
     width: 23.85%;
 }
 
-.card:hover {
+.card:hover, .card a {
     transform: translateY(-12px);
+    color: #000 !important;
 }
 
 @media (max-width: 1224px) {
