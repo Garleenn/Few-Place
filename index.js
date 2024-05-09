@@ -72,6 +72,7 @@ app.get('/products', async (req, res) => {
     
     const asNew = req.query.asNew; // Б\У или новое
     const category = req.query.category; // категория
+    const title = req.query.title; // категория
 
     let sorting = {};
     if(sortPrice) {
@@ -85,6 +86,8 @@ app.get('/products', async (req, res) => {
         search.isGood = asNew;
     } if (category) {
         search.category = category;
+    } if (title) {
+        search.$text = {$search: title};
     } if (sPrice) {
         search.price = {$gte: sPrice};
     } if (dPrice) {
@@ -166,13 +169,6 @@ app.put('/products', async (req, res) => {
 app.get('/product', async (req, res) => {
     const id = req.query.id;
     const data = await Product.findOne({_id: id});
-    res.send(data).status(200);
-});
-
-
-app.get('/productsTitle', async (req, res) => {
-    const title = req.query.title;
-    let data = await Product.find({$text: {$search: title}});
     res.send(data).status(200);
 });
 

@@ -104,7 +104,7 @@ export default {
             <h2>Мои объявления: </h2>
             <div class="d-flex justify-content flex-wrap gap-3" v-if="this.products.length != 0">
                 <div class="card d-flex flex-column gap-3" v-for="product in products">
-                    <router-link :to="`/Product?id=${product._id}`">
+                    <router-link :to="`/Product?id=${product._id}&itsMine=true`">
                         <div class="image-block text-center mx-auto"><img class="mx-auto my-auto" :src="product.image"
                                 :alt="product.title"></div>
                         <div class="product-info d-flex flex-column gap-1">

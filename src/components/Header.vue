@@ -6,19 +6,8 @@ export default {
     data() {
         return {
             title: ``,
-            productsTitle: [],
         }
     },
-    methods: {
-        async sendProduct() {
-            if(this.title != ``) {
-                let res = await axios.get(`/productsTitle?title=${this.title}`);
-                this.productsTitle = res.data;
-                
-                this.$emit('productsTitle', this.productsTitle);
-            }
-        }
-    }
 }
 </script>
 
@@ -26,15 +15,15 @@ export default {
 <template>
     <div class="nav-container px-5 py-5 d-flex justify-content-between border-bottom border-dark align-items-center mb-5">
         <routerLink to="/"><img role="button" class="me-5" src="../assets/favicon.ico" alt="Logo"></routerLink>
-        <form @submit.prevent="sendProduct" class="form-container d-flex gap-3">
+        <form @submit.prevent="$emit('productsTitle', this.title)" class="form-container d-flex gap-3">
             <input v-model="title" type="search" placeholder="Найти товар...">
             <button type="submit" class="btn btn-outline-success">Найти</button>
         </form>
         <nav class="nav ms-5">
             <ul class="d-flex gap-5 list-unstyled mb-0">
                 <li class="fs-5"><routerLink to="/">Главная</routerLink></li>
-                <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
                 <li class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
+                <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
             </ul>
         </nav>
     

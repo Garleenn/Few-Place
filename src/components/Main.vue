@@ -18,6 +18,7 @@ export default {
 
             sPrice: null,
             dPrice: null,
+            title: null,
 
             is1: false, is2: false, is3: false, is4: false, is5: false, is6: false,
             empty: ``,       
@@ -40,6 +41,7 @@ export default {
                     sPrice: this.sPrice,
                     dPrice: this.dPrice,
                     category: this.category,
+                    title: this.title,
                 }
             });
             this.products = res.data;
@@ -56,8 +58,16 @@ export default {
             let res = await axios.get('/products');
             this.products = res.data;
         },
-        productsTitle(productsTitle) {
-            this.products = productsTitle;
+        productsTitle(title) {
+            if(title.length != 0) {
+                this.title = title;
+                this.empty = ``;
+                this.filterProducts();
+            } else {
+                this.empty = 'По данному запросу товаров пока нет, но вы можете их добавить)';
+                this.title = null;
+                this.filterProducts();
+            }
         }
     }
 }
@@ -121,7 +131,7 @@ export default {
         <div class="card-cont row gap-4 justify-content-center w-100">
             <span v-if="this.empty" class="text-muted text-center fs-2 mb-5 pb-2">{{ empty }}</span>
                 <div class="card col-xxl-2 col-lg-3 col-md-4 col-sm-6 d-flex flex-column gap-3" v-for="product in products">
-                    <router-link :to="`/Product?id=${product._id}`">
+                    <router-link :to="`/Product?id=${product._id}&itsMine=false`">
                     <div class="image-block text-center mx-auto"><img class="mx-auto my-auto" :src="product.image"
                             :alt="product.title"></div>
                     <div class="product-info d-flex flex-column gap-1">
