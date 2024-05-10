@@ -30,7 +30,8 @@ export default {
                         role: this.role,
                     });
                     this.error = 'Аккаунт создан!';
-                    window.location.href = `http://localhost:5173/Profile?login=${this.login}&amI=true`;
+                    this.$router.push(`/Profile?login=${this.login}&amI=true`);
+                    
                 } catch(err) {
                     this.error = 'Логин должен быть уникальным, минимальная длинна пароля должна составлять 6 символов!';
                 }

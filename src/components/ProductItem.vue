@@ -59,7 +59,7 @@ export default {
                         id: this.product._id,
                     }
                 });
-                window.location.href = `http://localhost:5173/`;
+                this.$router.push('/');
             } catch(err) {
                 this.error = `Произошла ошибка. Код ошибки: ${err.response.status}`;
             }
