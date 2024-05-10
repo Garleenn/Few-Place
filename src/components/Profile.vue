@@ -60,11 +60,10 @@ export default {
                 <nav class="d-flex flex-column mt-4" v-if="this.$route.query.amI == 'true'">
                     <ul class="ps-0 gap-1 d-flex flex-column">
                         <li class="fw-bold mb-1">Действия: </li>
-                        <li><router-link>Редактировать профиль</router-link></li>
-                        <li><router-link>Изменить данные</router-link></li>
+                        <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
                         <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link>
                         </li>
-                        <li><router-link>Связаться с командой Few Place</router-link></li>
+                        <li><router-link>Связаться с нами</router-link></li>
                         <li><router-link>Сообщить об ошибке</router-link></li>
                     </ul>
                 </nav>
@@ -80,8 +79,7 @@ export default {
                     </div>
                     <div class="offcanvas-body">
                         <ul class="ps-0 gap-1 d-flex flex-column">
-                            <li><router-link>Редактировать профиль</router-link></li>
-                            <li><router-link>Изменить данные</router-link></li>
+                            <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
                             <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
                             <li><router-link>Связаться с командой Few Place</router-link></li>
                             <li><router-link>Сообщить об ошибке</router-link></li>

@@ -96,18 +96,20 @@ export default {
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
-            <button :disabled="this.$route.query.itsMine == 'true'" @click="addToCart" type="button" class="btn btn-outline-primary">
+            <button v-if="this.$route.query.itsMine == 'true'" disabled @click="addToCart" type="button" class="btn btn-outline-primary">
+                Ваш товар</button>
+            <button v-else :disabled="isAdded" @click="addToCart" type="button" class="btn btn-outline-primary">
                 {{ inCart }}</button>
             <h4 v-if="error" class="text-danger">{{ error }}</h4>
             <div class="btn-group" v-if="this.$route.query.itsMine == 'true'">
                 <button type="button" class="btn btn-outline-primary">Действие</button>
                 <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropdown</span>
+                    <span class="visually-hidden">Выберите: </span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button type="button" class="dropdown-item">Редактировать</button></li>
-                    <li><button type="button" class="dropdown-item" @click="deleteProduct">Удалить</button></li>
+                    <li><button type="button" class="dropdown-item"><router-link :to="`/UpdateProduct?id=${product._id}`">Редактировать</router-link></button></li>
+                    <li><button type="button" class="dropdown-item fw-semibold" @click="deleteProduct">Удалить</button></li>
                 </ul>
             </div>
         </div>
@@ -116,6 +118,9 @@ export default {
 </template>
 
 <style scoped>
+router-link:hover, a {
+    color: #000;
+}
 .card-container {
     min-height: calc(100vh - 325px);
 }

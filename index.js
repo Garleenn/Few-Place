@@ -275,7 +275,7 @@ app.get('/user', async (req, res) => {
     const login = req.query.login;
     const data = await User.findOne({login: login});
     if(data) {
-            res.send(data).status(200);
+        res.send(data).status(200);
     } else {
         res.sendStatus(400);
     }
@@ -294,6 +294,23 @@ app.post('/users', async (req, res) => {
 
     try {
         await newUser.save();
+        res.sendStatus(201);
+    } catch {
+        res.sendStatus(400);
+    }
+});
+
+app.put('/users', async (req, res) => {
+    const { id, login, email, role } = req.body;
+
+    let user = await User.findOne({_id: id});
+
+    user.login = login;
+    user.email = email;
+    user.role = role;
+
+    try {
+        await user.save();
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);

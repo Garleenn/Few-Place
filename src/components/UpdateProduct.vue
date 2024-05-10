@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 import axios from 'axios';
-import e from 'cors';
+
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
     components: { Header, Footer },
@@ -21,30 +21,52 @@ export default {
             error: ``,
         }
     },
+    mounted() {
+        this.infoProduct()
+    },
     methods: {
-        async createProduct() {
+        async infoProduct() {
             try {
-                if(this.description.length <= 2000) {
-                    await axios.post('/products', {
-                        title: this.title,
-                        description: this.description, 
-                        price: this.price, 
-                        category: this.category, 
-                        image: this.image, 
-                        isGood: this.isGood, 
-                        brand: this.brand, 
-                        countHas: this.countHas,
-                        author: this.$route.query.author,
-                    });
-                    this.error = 'Опубликованно!';
-                    this.$router.push('/');
-                } else {
-                    this.error = 'Описание должно быть длиннее 10 и короче 2000 символов!';
-                }
+                let res = await axios.get('/product', {
+                    params: {
+                        id: this.$route.query.id,
+                    }
+                });
+
+                this.title = res.data.title
+                this.description = res.data.description, 
+                this.price = res.data.price, 
+                this.category = res.data.category, 
+                this.image = res.data.image, 
+                this.isGood = res.data.isGood, 
+                this.brand = res.data.brand, 
+                this.countHas = res.data.countHas,
+
+                this.error = '';
             } catch (err) {
                 this.error = err;
             }
         },
+
+        async updProduct() {
+            try {
+                await axios.put('/products', {
+                    title: this.title,
+                    description: this.description, 
+                    price: this.price, 
+                    category: this.category, 
+                    image: this.image, 
+                    isGood: this.isGood, 
+                    brand: this.brand, 
+                    countHas: this.countHas,
+                    id: this.$route.query.id,
+                });
+                this.error = 'Изменено!';
+                this.$router.push('/');
+            } catch (err) {
+                this.error = err;
+            }
+        }
     }
 }
 </script>
@@ -52,9 +74,9 @@ export default {
 <template>
 <Header />
     <div class="content">
-        <form @submit.prevent="createProduct"
+        <form @submit.prevent="updProduct"
             class="container px-5 py-3 border border-2 rounded-3 d-flex flex-column align-items-center">
-            <h2>Создать объявление</h2>
+            <h2>Изменить объявление</h2>
             <div class="mb-3">
                 <label class="form-label">Изображение</label>
                 <input type="text" class="form-control mb-2" v-model="image">
