@@ -96,9 +96,8 @@ export default {
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
-            <button v-if="this.$route.query.itsMine == 'false'" :disabled="isAdded" @click="addToCart" type="button" class="btn btn-outline-primary">
+            <button :disabled="this.$route.query.itsMine == 'true'" @click="addToCart" type="button" class="btn btn-outline-primary">
                 {{ inCart }}</button>
-            <button v-else disabled type="button" class="btn btn-outline-primary">Это ваш товар</button>
             <h4 v-if="error" class="text-danger">{{ error }}</h4>
             <div class="btn-group" v-if="this.$route.query.itsMine == 'true'">
                 <button type="button" class="btn btn-outline-primary">Действие</button>

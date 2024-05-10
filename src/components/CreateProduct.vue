@@ -3,6 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 import axios from 'axios';
+import e from 'cors';
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
     components: { Header, Footer },
@@ -23,19 +24,24 @@ export default {
     methods: {
         async createProduct() {
             try {
-                await axios.post('/products', {
-                    title: this.title,
-                    description: this.description, 
-                    price: this.price, 
-                    category: this.category, 
-                    image: this.image, 
-                    isGood: this.isGood, 
-                    brand: this.brand, 
-                    countHas: this.countHas,
-                    author: this.$route.query.author,
-                });
-                this.error = 'Опубликованно!';
-                window.location.href = `http://localhost:5173/`;
+                if(this.description.length <= 2000) {
+                    await axios.post('/products', {
+                        title: this.title,
+                        description: this.description, 
+                        price: this.price, 
+                        category: this.category, 
+                        image: this.image, 
+                        isGood: this.isGood, 
+                        brand: this.brand, 
+                        countHas: this.countHas,
+                        author: this.$route.query.author,
+                    });
+                    this.error = 'Опубликованно!';
+                    // window.location.href = `http://localhost:5173/`;
+                    this.$router.push('/');
+                } else {
+                    this.error = 'Описание должно быть длиннее 10 и короче 2000 символов!';
+                }
             } catch (err) {
                 this.error = err;
             }
@@ -55,8 +61,11 @@ export default {
                 <input type="text" class="form-control mb-2" v-model="image">
                 <label class="form-label">Название</label>
                 <input type="text" class="form-control mb-2" v-model="title">
-                <label class="form-label">Описание</label>
-                <textarea type="text" class="form-control mb-2" v-model="description"></textarea>
+                <div class="descr">
+                    <label class="form-label">Описание</label>
+                    <textarea type="text" class="form-control mb-2 pb-3" v-model="description" cols="20"></textarea>
+                    <span class="text-muted symbol-counter">{{ description.length }} / 2000</span>
+                </div>
                 <label class="form-label">Бренд</label>
                 <input type="text" class="form-control mb-2" v-model="brand">
                 <label class="form-label">Категория</label>
@@ -87,5 +96,15 @@ export default {
 <style scoped>
 .content {
     min-height: calc(100vh - 325px);
+}
+.descr {
+    position: relative;
+}
+
+.symbol-counter {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 14px;
 }
 </style>
