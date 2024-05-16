@@ -1,12 +1,21 @@
-// project on: express cors mongoose axios socket.io socket.io-client nodemon vue-router dayjs
+// npm i express cors mongoose axios socket.io socket.io-client nodemon vue-router dayjs express-session cookie-parser
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = 3005;
+const session = require('express-session');
+const cookieParser = require("cookie-parser");
 
 app.use(cors(`http://localhost:${port}`));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cookieParser());
+
+app.use(session({
+    secret: "6iKfU6KQQqPf4GhPkV17",
+    saveUninitialized: true,
+    resave: true
+}));
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)
@@ -72,7 +81,7 @@ app.get('/products', async (req, res) => {
     
     const asNew = req.query.asNew; // Б\У или новое
     const category = req.query.category; // категория
-    const title = req.query.title; // категория
+    const title = req.query.title; // название
 
     let sorting = {};
     if(sortPrice) {
@@ -314,5 +323,17 @@ app.put('/users', async (req, res) => {
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);
+    }
+});
+
+app.get('/session', async (req, res) => {
+    if (req.session.view) {
+        req.session.view++;
+        res.send("You visited this page for "
+            + req.session.view + " times");
+    } else {
+        req.session.view = 1;
+        res.send("You have visited this page"
+           + " for first time ! Welcome....");
     }
 });

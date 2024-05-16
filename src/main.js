@@ -12,6 +12,7 @@ import Registration from '../src/components/Registration.vue'
 import Profile from '../src/components/Profile.vue'
 import CreateProduct from '../src/components/CreateProduct.vue'
 import UpdateProfile from '../src/components/UpdateProfile.vue'
+import UpdateProduct from '../src/components/UpdateProduct.vue'
 
 import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
@@ -60,6 +61,11 @@ const router = createRouter({
     name: 'UpdateProfile',
     path: '/UpdateProfile',
     component: UpdateProfile
+  },
+  {
+    name: 'UpdateProduct',
+    path: '/UpdateProduct',
+    component: UpdateProduct
   },
 ],
 })

@@ -29,7 +29,7 @@ export default {
             try {
                 let res = await axios.get('/product', {
                     params: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id
                     }
                 });
 

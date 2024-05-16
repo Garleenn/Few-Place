@@ -63,8 +63,8 @@ export default {
                         <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
                         <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link>
                         </li>
-                        <li><router-link>Связаться с нами</router-link></li>
-                        <li><router-link>Сообщить об ошибке</router-link></li>
+                        <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
                     </ul>
                 </nav>
 
@@ -81,8 +81,8 @@ export default {
                         <ul class="ps-0 gap-1 d-flex flex-column">
                             <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
                             <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
-                            <li><router-link>Связаться с командой Few Place</router-link></li>
-                            <li><router-link>Сообщить об ошибке</router-link></li>
+                            <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
                         </ul>
                     </div>
                 </div>

@@ -55,6 +55,7 @@ export default {
             this.is1 = false; this.is2 = false; this.is3 = false; this.is4 = false; this.is5 = false; this.is6 = false;
             this.category = null;
             this.sPrice = null; this.dPrice = null;
+            this.empty = ``;
             let res = await axios.get('/products');
             this.products = res.data;
         },
