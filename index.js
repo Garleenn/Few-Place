@@ -6,15 +6,20 @@ const port = 3005;
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
 
-app.use(cors(`http://localhost:${port}`));
+let corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cookieParser());
+app.use(cookieParser("6iKfU6KQQqPf4GhPkV17"));
 
 app.use(session({
     secret: "6iKfU6KQQqPf4GhPkV17",
     saveUninitialized: true,
-    resave: true
+    resave: true,
+    cookie: { maxAge: 6000000, secure: true }
 }));
 
 app.listen(port, () => {
@@ -27,6 +32,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/FewPlace');
 
 app.get('/', (req, res) => {
+    const sessionData = req.session;
     res.send('Сервер запущен');
     res.sendStatus(200);
 });
@@ -284,6 +290,8 @@ app.get('/user', async (req, res) => {
     const login = req.query.login;
     const data = await User.findOne({login: login});
     if(data) {
+        req.session.username = login;
+        req.session.save();
         res.send(data).status(200);
     } else {
         res.sendStatus(400);
@@ -291,8 +299,9 @@ app.get('/user', async (req, res) => {
 });
 
 app.post('/users', async (req, res) => {
+    
     const { login, email, password, role } = req.body;
-
+    
     const newUser = new User({
         login: login,
         email: email,
@@ -302,10 +311,24 @@ app.post('/users', async (req, res) => {
     });
 
     try {
+        req.session.save();
         await newUser.save();
+        req.session.username = newUser.login;
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);
+    }
+});
+
+app.get('/session', async (req, res) => {
+    if(req.session.username) {
+        console.log(52);
+        let user = await User.findOne({login: req.session.username});
+        if(user) {
+            res.send(user).status(200);
+        } else {
+            res.sendStatus(400);
+        }
     }
 });
 
@@ -323,17 +346,5 @@ app.put('/users', async (req, res) => {
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);
-    }
-});
-
-app.get('/session', async (req, res) => {
-    if (req.session.view) {
-        req.session.view++;
-        res.send("You visited this page for "
-            + req.session.view + " times");
-    } else {
-        req.session.view = 1;
-        res.send("You have visited this page"
-           + " for first time ! Welcome....");
     }
 });

@@ -40,7 +40,7 @@ export default {
         dayJs() {
             let day = dayjs(this.user.createdAt).format('DD.MM.YYYY в HH:mm');
             this.user.createdAt = day;
-        }
+        },
     }
 }
 </script>

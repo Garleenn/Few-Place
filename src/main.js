@@ -2,6 +2,8 @@ import './main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 
 import Main from '../src/components/Main.vue'
 import Cart from '../src/components/Cart.vue'

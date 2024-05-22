@@ -1,13 +1,27 @@
 <script>
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
+axios.defaults.withCredentials = true;
 
 export default {
     data() {
         return {
             title: ``,
+            user: ``,
         }
     },
+
+    mounted() {
+        this.getSession();
+    },
+
+    methods: {
+        async getSession() {
+            let res = await axios.get('/session');
+            this.user = res.data;
+            console.log(this.user);
+        },
+    }
 }
 </script>
 
@@ -19,11 +33,12 @@ export default {
             <input v-model="title" type="search" placeholder="Найти товар...">
             <button type="submit" class="btn btn-outline-success">Найти</button>
         </form>
-        <nav class="nav ms-5">
+        <nav class="nav ms-5 d-flex align-items-center">
             <ul class="d-flex gap-5 list-unstyled mb-0">
-                <li class="fs-5"><routerLink to="/">Главная</routerLink></li>
-                <li class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
-                <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
+                <li class="fs-5 my-auto"><routerLink to="/">Главная</routerLink></li>
+                <li v-if="this.user != ``" class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
+                <li v-if="this.user != ``" class="fs-5"><routerLink :to="`/Profile?login=${user.login}&amI=true`">Профиль</routerLink></li>
+                <li v-else class="fs-5"><routerLink to="/Enter"><button>Войти</button></routerLink></li>
             </ul>
         </nav>
     
