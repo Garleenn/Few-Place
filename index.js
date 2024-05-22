@@ -19,7 +19,7 @@ app.use(session({
     secret: "6iKfU6KQQqPf4GhPkV17",
     saveUninitialized: true,
     resave: true,
-    cookie: { maxAge: 6000000, secure: true }
+    cookie: { maxAge: 6000000 }
 }));
 
 app.listen(port, () => {
@@ -126,7 +126,7 @@ app.get('/myProducts', async (req, res) => {
 })
 
 app.post('/products', async (req, res) => {
-    const { title, description, price, category, image, isGood, countHas, brand, author } = req.body;
+    const { title, description, price, category, image, isGood, countHas, brand } = req.body;
 
     const product = new Product({
         title: title,
@@ -138,7 +138,7 @@ app.post('/products', async (req, res) => {
         isGood: isGood,
         countHas: countHas,
         brand: brand,
-        author: author,
+        author: req.session.username,
     });
 
     try {
@@ -322,13 +322,32 @@ app.post('/users', async (req, res) => {
 
 app.get('/session', async (req, res) => {
     if(req.session.username) {
-        console.log(52);
         let user = await User.findOne({login: req.session.username});
         if(user) {
             res.send(user).status(200);
         } else {
             res.sendStatus(400);
         }
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+app.get('/check', async (req, res) => {
+    let login = req.query.login;
+    if(req.session.username == login) {
+        res.send(true).status(200);
+    } else {
+        res.send(false).status(200);
+    }
+});
+
+app.get('/logout', async (req, res) => {
+    if(req.session.username) {
+        req.session.destroy();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(401);
     }
 });
 

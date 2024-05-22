@@ -25,7 +25,7 @@ export default {
                 });
                 if(res.data.password == this.password) {
                     this.error = 'Вход выполнен!';
-                    this.$router.push(`/Profile?login=${this.login}&amI=true`);
+                    this.$router.push(`/Profile?login=${this.login}`);
                 } else {
                     this.error = 'Пароль неверен!';
                 }

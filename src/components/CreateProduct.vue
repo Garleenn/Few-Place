@@ -34,7 +34,6 @@ export default {
                         isGood: this.isGood, 
                         brand: this.brand, 
                         countHas: this.countHas,
-                        author: this.$route.query.author,
                     });
                     this.error = 'Опубликованно!';
                     this.$router.push('/');

@@ -15,6 +15,8 @@ export default {
             products: [],
 
             error: ``,
+
+            isCheck: false,
         }
     },
     mounted() {
@@ -32,9 +34,24 @@ export default {
                 let res = await axios.get(`/user?login=${this.$route.query.login}`);
                 this.user = res.data;
                 this.dayJs();
+                this.check();
             } catch (err) {
                 this.error = err;
             }
+        },
+
+        async logout() {
+            await axios.get('/logout');
+            this.$router.push(`/`);
+        },
+
+        async check() {
+            let res = await axios.get('/check', {
+                params: {
+                    login: this.user.login
+                }
+            });
+            this.isCheck = Boolean(res.data);
         },
 
         dayJs() {
@@ -57,18 +74,18 @@ export default {
                         <h2 class="mb-0">{{ user.login }}</h2>
                     </div>
                 </div>
-                <nav class="d-flex flex-column mt-4" v-if="this.$route.query.amI == 'true'">
+                <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
                     <ul class="ps-0 gap-1 d-flex flex-column">
                         <li class="fw-bold mb-1">Действия: </li>
                         <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
-                        <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link>
-                        </li>
+                        <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
                         <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
                         <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
+                        <li role="button" @click="logout" class="text-danger">Выйти из аккаунта</li>
                     </ul>
                 </nav>
 
-                <button class="btn right-menu-btn d-none" type="button" data-bs-toggle="offcanvas" v-if="this.$route.query.amI == 'true'"
+                <button class="btn right-menu-btn d-none" type="button" data-bs-toggle="offcanvas" v-if="isCheck"
                     data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><img src="../assets/close.svg" alt="x">
                 </button>
 
@@ -83,6 +100,7 @@ export default {
                             <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
                             <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
                             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
+                            <li @click="logout" class="text-danger">Выйти из аккаунта</li>
                         </ul>
                     </div>
                 </div>

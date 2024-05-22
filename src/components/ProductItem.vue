@@ -17,7 +17,9 @@ export default {
             action: '',
             inCart: 'Добавить в корзину!',
 
-            isAdded: false
+            isAdded: false,
+
+            isCheck: false,
         }
     },
     mounted() {
@@ -28,6 +30,16 @@ export default {
             let res = await axios.get(`/product?id=${this.$route.query.id}`);
             this.product = res.data;
             this.dayJs();
+            this.check();
+        },
+
+        async check() {
+            let res = await axios.get('/check', {
+                params: {
+                    login: this.product.author
+                }
+            });
+            this.isCheck = Boolean(res.data);
         },
 
         async addToCart() {
@@ -92,7 +104,7 @@ export default {
                 <span class="badge text-bg-secondary w-fit">Б/У</span>
             </span>
             <span class="d-flex align-items-center gap-2">Автор:
-                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}&amI=false`">{{ product.author }}</router-link></span>
+                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}`">{{ product.author }}</router-link></span>
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
@@ -101,7 +113,7 @@ export default {
             <button v-else :disabled="isAdded" @click="addToCart" type="button" class="btn btn-outline-primary">
                 {{ inCart }}</button>
             <h4 v-if="error" class="text-danger">{{ error }}</h4>
-            <div class="btn-group" v-if="this.$route.query.itsMine == 'true'">
+            <div class="btn-group" v-if="this.isCheck">
                 <button type="button" class="btn btn-outline-primary">Действие</button>
                 <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown" aria-expanded="false">
