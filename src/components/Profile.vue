@@ -16,12 +16,13 @@ export default {
 
             error: ``,
 
-            isCheck: false,
+            isCheck: null,
         }
     },
     mounted() {
         this.loadUser();
         this.loadProducts();
+        this.check();
     },
     methods: {
         async loadProducts() {
@@ -31,10 +32,13 @@ export default {
 
         async loadUser() {
             try {
-                let res = await axios.get(`/user?login=${this.$route.query.login}`);
+                let res = await axios.get(`/user`, {
+                    params: {
+                        login: this.$route.query.login,
+                    }
+                });
                 this.user = res.data;
                 this.dayJs();
-                this.check();
             } catch (err) {
                 this.error = err;
             }
@@ -48,7 +52,7 @@ export default {
         async check() {
             let res = await axios.get('/check', {
                 params: {
-                    login: this.user.login
+                    login: this.$route.query.login
                 }
             });
             this.isCheck = Boolean(res.data);

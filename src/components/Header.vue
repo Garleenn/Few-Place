@@ -51,9 +51,10 @@ export default {
             </div>
             <div class="offcanvas-body">
                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
-                    <li class="fs-5"><routerLink to="/">Главная</routerLink></li>
-                    <li class="fs-5"><routerLink to="/Enter">Профиль</routerLink></li>
-                    <li class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
+                    <li class="fs-5 my-auto"><routerLink to="/">Главная</routerLink></li>
+                    <li v-if="this.user != ``" class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
+                    <li v-if="this.user != ``" class="fs-5"><routerLink :to="`/Profile?login=${user.login}`">Профиль</routerLink></li>
+                    <li v-else class="fs-5"><routerLink to="/Enter"><button>Войти</button></routerLink></li>
                 </ul>
             </div>
         </div>
@@ -78,7 +79,7 @@ export default {
         display: block !important;
     }
     .nav {
-        display: none;
+        display: none !important;
     }
     .form-container button {
         display: none !important;

@@ -291,7 +291,7 @@ app.get('/user', async (req, res) => {
     const data = await User.findOne({login: login});
     if(data) {
         req.session.username = login;
-        req.session.save();
+        // req.session.save();
         res.send(data).status(200);
     } else {
         res.sendStatus(400);
@@ -311,7 +311,7 @@ app.post('/users', async (req, res) => {
     });
 
     try {
-        req.session.save();
+        // req.session.save();
         await newUser.save();
         req.session.username = newUser.login;
         res.sendStatus(201);
@@ -335,10 +335,10 @@ app.get('/session', async (req, res) => {
 
 app.get('/check', async (req, res) => {
     let login = req.query.login;
-    if(req.session.username == login) {
+    if(req.session.username === login) {
         res.send(true).status(200);
     } else {
-        res.send(false).status(200);
+        res.send(false).status(400);
     }
 });
 

@@ -132,7 +132,7 @@ export default {
         <div class="card-cont row gap-4 justify-content-center w-100">
             <span v-if="this.empty" class="text-muted text-center fs-2 mb-5 pb-2">{{ empty }}</span>
                 <div class="card col-xxl-2 col-lg-3 col-md-4 col-sm-6 d-flex flex-column gap-3" v-for="product in products">
-                    <router-link :to="`/Product?id=${product._id}&itsMine=false`">
+                    <router-link :to="`/Product?id=${product._id}`">
                     <div class="image-block text-center mx-auto"><img class="mx-auto my-auto" :src="product.image"
                             :alt="product.title"></div>
                     <div class="product-info d-flex flex-column gap-1">
