@@ -1,0 +1,250 @@
+[{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120ca9"
+  },
+  "title": "Кроссовки Adidas Ultraboost",
+  "description": "Кроссовки Adidas с подошвой из пены Ultraboost для максимальной амортизации.",
+  "price": 9990,
+  "category": "Одежда",
+  "image": "https://www.runlab.ru/f/product/adidas_ultraboost_22_w_gx5588_(1).jpg",
+  "isMine": true,
+  "createdAt": {
+    "$date": "2021-11-05T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "Adidas",
+  "brandImage": "https://grizly.club/uploads/posts/2022-12/1672181777_grizly-club-p-trafaret-adidas-22.png",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120caa"
+  },
+  "title": "Кофемашина DeLonghi Magnifica S",
+  "description": "Автоматическая кофемашина для эспрессо, латте и капучино.",
+  "price": 39990,
+  "category": "Для дома",
+  "image": "https://avatars.mds.yandex.net/get-mpic/5194541/img_id5329674356690981637.jpeg/orig",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-04-05T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "DeLonghi",
+  "brandImage": "https://logo-marque.com/wp-content/uploads/2020/12/DeLonghi-Symbole.png",
+  "countHas": 12,
+  "author": "Few Place Store",
+  "updatedAt": {
+    "$date": "2024-05-10T10:53:05.832Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cab"
+  },
+  "title": "Фотоаппарат Sony Alpha A7 III",
+  "description": "Полнокадровый беззеркальный фотоаппарат с матрицей 24 Мп и быстрой системой автофокусировки.",
+  "price": 99990,
+  "category": "Техника",
+  "image": "https://texno-pro.ru/upload/iblock/d94/1026051_middle.jpg",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-04-10T00:00:00.000Z"
+  },
+  "isGood": false,
+  "brand": "Sony",
+  "brandImage": "https://aviprom.ru/upload/iblock/bb5/bb5bab13cf7e66d8d25532c59f275966.jpg",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cac"
+  },
+  "title": "Компьютерная мышь Logitech MX Master 3",
+  "description": "Беспроводная компьютерная мышь с поддержкой беспроводной зарядки и удобной формой для правой руки.",
+  "price": 7990,
+  "category": "Техника",
+  "image": "https://avatars.mds.yandex.net/get-mpic/4888456/img_id1840357389392571175.jpeg/orig",
+  "isMine": true,
+  "createdAt": {
+    "$date": "2022-03-20T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "Logitech",
+  "brandImage": "https://binom-m.ru/img/m/15.jpg",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cad"
+  },
+  "title": "Компактная колонка JBL Flip 5",
+  "description": "Bluetooth-колонка с мощным звуком и защитой от воды.",
+  "price": 6990,
+  "category": "Техника",
+  "image": "https://avatars.mds.yandex.net/get-mpic/4383514/img_id7062404799260768319.jpeg/orig",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-04-15T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "JBL",
+  "brandImage": "https://mercandu.nyc3.digitaloceanspaces.com/brand/21a3b03d-7fd1-4ff3-aac0-181123cba4ec.jpeg",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cae"
+  },
+  "title": "Фитнес-браслет Xiaomi Mi Smart Band 6",
+  "description": "Смарт-браслет для здоровья и фитнеса с большим AMOLED-дисплеем и длительным временем работы.",
+  "price": 3290,
+  "category": "Техника",
+  "image": "https://cdn.ksyru0-fusion.fds.api.mi-img.com/b2c-mishop-pms-ru/pms_1619522961.41276586.png",
+  "isMine": true,
+  "createdAt": {
+    "$date": "2022-02-15T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "Xiaomi",
+  "brandImage": "https://lg.beri.shop/images/feature_variant/68/Xiaomi-logo-2.png",
+  "countHas": 1098,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120caf"
+  },
+  "title": "Телевизор Samsung QN900A Neo QLED",
+  "description": "Флагманский телевизор с новой технологией Mini LED и поддержкой всех современных форматов видео.",
+  "price": 399990,
+  "category": "Техника",
+  "image": "https://online-samsung.ru/sites/default/files/styles/product_full/public/2023-05/UE55CU7100UXRU_1.png.webp?itok=SXlAeH9N",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-03-10T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "Samsung",
+  "brandImage": "https://www.swisslifearena.ch/fileadmin/_processed_/0/a/csm_partner-samsung-swisslifearena_656211406d.png",
+  "countHas": 6,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cb0"
+  },
+  "title": "Игровая консоль Sony PlayStation 5",
+  "description": "Пятая версия популярной игровой консоли с высокой производительностью и поддержкой новейших игр.",
+  "price": 49990,
+  "category": "Техника",
+  "image": "https://avatars.mds.yandex.net/get-mpic/4080439/img_id3396893556724706605.jpeg/orig",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-01-05T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "Sony",
+  "brandImage": "https://aviprom.ru/upload/iblock/bb5/bb5bab13cf7e66d8d25532c59f275966.jpg",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cb1"
+  },
+  "title": "Кофемашина DeLonghi Eletta Cappuccino TOP ECAM 45.760.W",
+  "description": "Полностью автоматическая кофемашина с возможностью приготовления капучино и латте.",
+  "price": 79990,
+  "category": "Для дома",
+  "image": "https://avatars.mds.yandex.net/get-mpic/3699263/img_id8284675299224720201.jpeg/orig",
+  "isMine": true,
+  "createdAt": {
+    "$date": "2022-03-21T00:00:00.000Z"
+  },
+  "isGood": true,
+  "brand": "DeLonghi",
+  "brandImage": "https://logo-marque.com/wp-content/uploads/2020/12/DeLonghi-Symbole.png",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "641d7c846d14b3e30b120cb2"
+  },
+  "title": "Ноутбук Lenovo IdeaPad Gaming 3",
+  "description": "Ноутбук для игр с процессором Intel Core i5 и дискретной видеокартой NVIDIA GeForce GTX 1650.",
+  "price": 69990,
+  "category": "Техника",
+  "image": "https://img.mvideo.ru/Pdb/30063320b.jpg",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-02-01T00:00:00.000Z"
+  },
+  "isGood": false,
+  "brand": "Lenovo",
+  "brandImage": "https://logodix.com/logo/46844.jpg",
+  "countHas": 1,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "66351bb7f6803fc3b5afd7b9"
+  },
+  "title": "Футболка Nike",
+  "description": "Классическая футболка Nike с логотипом на груди.",
+  "price": 1499,
+  "category": "Одежда",
+  "image": "https://rskrf.ru/upload/iblock/e04/tmyoe45cuwwp9sw0xcl3e0tbago3bt67.jpg",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-01-15T00:00:00.000Z"
+  },
+  "brand": "Nike",
+  "brandImage": "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666792685_41-mykaleidoscope-ru-p-krasnie-kedi-naik-oboi-47.jpg",
+  "isGood": true,
+  "countHas": 1,
+  "author": "test"
+},
+{
+  "_id": {
+    "$oid": "66351c65f6803fc3b5afd7bd"
+  },
+  "title": "Смартфон Samsung Galaxy S22",
+  "description": "Новый флагманский смартфон Samsung с AMOLED-экраном и чипсетом Exynos 2200.",
+  "price": 59990,
+  "category": "Техника",
+  "image": "https://avatars.mds.yandex.net/get-mpic/5173149/img_id2053915926734071697.jpeg/orig",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-02-05T00:00:00.000Z"
+  },
+  "brand": "Samsung",
+  "brandImage": "https://www.swisslifearena.ch/fileadmin/_processed_/0/a/csm_partner-samsung-swisslifearena_656211406d.png",
+  "isGood": false,
+  "countHas": 175,
+  "author": "Few Place Store"
+},
+{
+  "_id": {
+    "$oid": "66351dbaf6803fc3b5afd7c3"
+  },
+  "title": "Наушники Sony WH-1000XM4",
+  "description": "Шумоподавляющие наушники Sony с поддержкой LDAC и NFC.",
+  "price": 24990,
+  "category": "Техника",
+  "isGood": true,
+  "image": "https://www.sony.ru/image/5d02da5df552836db894cead8a68f5f3?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF",
+  "isMine": false,
+  "createdAt": {
+    "$date": "2022-03-10T00:00:00.000Z"
+  },
+  "brand": "Sony",
+  "brandImage": "https://aviprom.ru/upload/iblock/bb5/bb5bab13cf7e66d8d25532c59f275966.jpg",
+  "countHas": 1,
+  "author": "Few Place Store"
+}]
