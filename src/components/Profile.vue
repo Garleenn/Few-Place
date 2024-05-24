@@ -4,6 +4,7 @@ import Footer from '../components/Footer.vue';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
+axios.defaults.withCredentials = true;
 
 import dayjs from 'dayjs';
 
@@ -16,7 +17,7 @@ export default {
 
             error: ``,
 
-            isCheck: null,
+            isCheck: false,
         }
     },
     mounted() {
@@ -55,7 +56,8 @@ export default {
                     login: this.$route.query.login
                 }
             });
-            this.isCheck = Boolean(res.data);
+
+            this.isCheck = res.data;
         },
 
         dayJs() {
@@ -81,10 +83,13 @@ export default {
                 <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
                     <ul class="ps-0 gap-1 d-flex flex-column">
                         <li class="fw-bold mb-1">Действия: </li>
-                        <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
-                        <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
+                        <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные
+                                профиля</router-link></li>
+                        <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link>
+                        </li>
                         <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
-                        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+                                target="_blank">Сообщить об ошибке</a></li>
                         <li role="button" @click="logout" class="text-danger">Выйти из аккаунта</li>
                     </ul>
                 </nav>
@@ -93,17 +98,21 @@ export default {
                     data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><img src="../assets/close.svg" alt="x">
                 </button>
 
-                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
+                    aria-labelledby="offcanvasRightLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title mb-2" id="offcanvasRightLabel">Действия: </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <ul class="ps-0 gap-1 d-flex flex-column">
-                            <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные профиля</router-link></li>
-                            <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link></li>
+                            <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные
+                                    профиля</router-link></li>
+                            <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать
+                                    объявление</router-link></li>
                             <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
-                            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank">Сообщить об ошибке</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+                                    target="_blank">Сообщить об ошибке</a></li>
                             <li @click="logout" class="text-danger">Выйти из аккаунта</li>
                         </ul>
                     </div>
@@ -116,6 +125,9 @@ export default {
                 <ul class="d-flex flex-column gap-2">
                     <li>Всем привет! Меня зовут <b>{{ user.login }}!</b></li>
                     <li>Я тут <b>{{ user.role }}</b>!</li>
+                    <li @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
+                        <a href="#">Посмотрите мои отзывы!</a>
+                    </li>
                     <li>Надеюсь произвести на вас впечатление!</li>
                 </ul>
             </div>
@@ -124,7 +136,7 @@ export default {
             <h2>Мои объявления: </h2>
             <div class="d-flex justify-content flex-wrap gap-3" v-if="this.products.length != 0">
                 <div class="card d-flex flex-column gap-3" v-for="product in products">
-                    <router-link :to="`/Product?id=${product._id}&itsMine=${this.$route.query.amI}`">
+                    <router-link :to="`/Product?id=${product._id}`">
                         <div class="image-block text-center mx-auto"><img class="mx-auto my-auto" :src="product.image"
                                 :alt="product.title"></div>
                         <div class="product-info d-flex flex-column gap-1">
@@ -156,6 +168,7 @@ router-link:hover {
 
 .profile-container {
     min-height: calc(100vh - 325px);
+    width: 100% !important;
 }
 
 .info-block img {
@@ -175,10 +188,11 @@ router-link:hover {
 
 .card {
     transition: all 300ms;
-    width: 23.85%;
+    max-width: 23.85%;
 }
 
-.card:hover, .card a {
+.card:hover,
+.card a {
     transform: translateY(-12px);
     color: #000 !important;
 }

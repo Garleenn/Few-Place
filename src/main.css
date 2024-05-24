@@ -52,7 +52,7 @@ img {
     user-select: none !important;
 }
 
-input {
+input, textarea {
     width: 100%;
     background: #fff;
     border: 1px solid #000;

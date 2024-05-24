@@ -15,6 +15,7 @@ import Profile from '../src/components/Profile.vue'
 import CreateProduct from '../src/components/CreateProduct.vue'
 import UpdateProfile from '../src/components/UpdateProfile.vue'
 import UpdateProduct from '../src/components/UpdateProduct.vue'
+import UserReviews from '../src/components/UserReviews.vue'
 
 import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
@@ -68,6 +69,11 @@ const router = createRouter({
     name: 'UpdateProduct',
     path: '/UpdateProduct',
     component: UpdateProduct
+  },
+  {
+    name: 'UserReviews',
+    path: `/UserReviews/:login`,
+    component: UserReviews
   },
 ],
 })

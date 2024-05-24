@@ -108,7 +108,7 @@ export default {
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
-            <button v-if="this.$route.query.itsMine == 'true'" disabled @click="addToCart" type="button" class="btn btn-outline-primary">
+            <button v-if="this.isCheck" disabled @click="addToCart" type="button" class="btn btn-outline-primary">
                 Ваш товар</button>
             <button v-else :disabled="isAdded" @click="addToCart" type="button" class="btn btn-outline-primary">
                 {{ inCart }}</button>

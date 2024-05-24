@@ -1,4 +1,4 @@
-// npm i express cors mongoose axios socket.io socket.io-client nodemon vue-router dayjs express-session cookie-parser
+// npm i express cors mongoose axios nodemon vue-router dayjs express-session cookie-parser
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -13,13 +13,14 @@ let corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cookieParser("6iKfU6KQQqPf4GhPkV17"));
+app.use(cookieParser());
 
 app.use(session({
     secret: "6iKfU6KQQqPf4GhPkV17",
     saveUninitialized: true,
-    resave: true,
-    cookie: { maxAge: 6000000 }
+    resave: false,
+    rolling: false,
+    cookie: { maxAge: 600000000000 }
 }));
 
 app.listen(port, () => {
@@ -274,6 +275,24 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    reviews: [{
+        user: {
+            type: Object,
+            require: true,
+        },
+        comment: {
+            type: String,
+            require: true,
+            min: 3,
+            max: 500,
+        },
+        raiting: {
+            type: Number,
+            require: true,
+            min: 1,
+            max: 5,
+        }
+    }]
 }, {
     timestamps: true
 });
@@ -308,6 +327,7 @@ app.post('/users', async (req, res) => {
         password: password,
         avaImage: "https://yt3.googleusercontent.com/ytc/AIf8zZTOqVAj1luCxSiohOyyV5yKwi0DDFy6PruvGoCEeg=s900-c-k-c0x00ffffff-no-rj",
         role: role,
+        reviews: [],
     });
 
     try {
@@ -328,17 +348,20 @@ app.get('/session', async (req, res) => {
         } else {
             res.sendStatus(400);
         }
-    } else {
-        res.sendStatus(401);
     }
 });
 
 app.get('/check', async (req, res) => {
-    let login = req.query.login;
-    if(req.session.username === login) {
-        res.send(true).status(200);
-    } else {
-        res.send(false).status(400);
+    if(req.session.username) {
+        const login = req.query.login;
+        if(req.session.username === login) {
+            res.send(true).status(200);
+            console.log('true: ' + req.session.username + ' / ' +  login);
+        } else {
+            res.send(false).status(400);
+            console.log('false: ' + req.session.username + ' / ' +  login);
+            return;
+        }
     }
 });
 
@@ -365,5 +388,33 @@ app.put('/users', async (req, res) => {
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);
+    }
+});
+
+app.put('/reviews', async (req, res) => {
+    const { comment, raiting, login } = req.body;
+
+    let userSession = await User.findOne({login: req.session.username});
+
+    if(login != req.session.username) {
+        let user = await User.findOne({login: login});
+    
+        user.reviews.push({
+            user: {
+                login: userSession.login,
+                avaImage: userSession.avaImage,
+            },
+            comment: comment,
+            raiting: raiting,
+        });
+    
+        try {
+            await user.save();
+            res.sendStatus(201);
+        } catch {
+            res.sendStatus(400);
+        }
+    } else {
+        res.sendStatus(401);
     }
 });
