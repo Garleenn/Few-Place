@@ -18,14 +18,14 @@ export default {
     methods: {
         async LogIn() {
             try {
-                let res = await axios.get('/user', {
+                let res = await axios.get('/login', {
                     params: {
                         login: this.login,
                     },
                 });
                 if(res.data.password == this.password) {
                     this.error = 'Вход выполнен!';
-                    this.$router.push(`/Profile?login=${this.login}`);
+                    this.$router.push(`/Profile/${this.login}`);
                 } else {
                     this.error = 'Пароль неверен!';
                 }

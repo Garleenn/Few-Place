@@ -22,14 +22,14 @@ export default {
         }
     },
     mounted() {
-        this.infoProduct()
+        this.infoProduct();
     },
     methods: {
         async infoProduct() {
             try {
                 let res = await axios.get('/product', {
                     params: {
-                        id: this.$route.query.id
+                        id: this.$route.params.id
                     }
                 });
 
@@ -59,14 +59,14 @@ export default {
                     isGood: this.isGood, 
                     brand: this.brand, 
                     countHas: this.countHas,
-                    id: this.$route.query.id,
+                    id: this.$route.params.id,
                 });
                 this.error = 'Изменено!';
                 this.$router.push('/');
             } catch (err) {
                 this.error = err;
             }
-        }
+        },
     }
 }
 </script>

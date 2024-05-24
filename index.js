@@ -299,18 +299,22 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('user', userSchema);
 
-
-app.get('/users', async (req, res) => {
-    const data = await User.find();
-    res.send(data).status(200);
+app.get('/login', async (req, res) => {
+    const login = req.query.login;
+    const data = await User.findOne({login: login});
+    if(data) {
+        req.session.username = login;
+        // req.session.save();
+        res.send(data).status(200);
+    } else {
+        res.sendStatus(400);
+    }
 });
 
 app.get('/user', async (req, res) => {
     const login = req.query.login;
     const data = await User.findOne({login: login});
     if(data) {
-        req.session.username = login;
-        // req.session.save();
         res.send(data).status(200);
     } else {
         res.sendStatus(400);
@@ -356,12 +360,11 @@ app.get('/check', async (req, res) => {
         const login = req.query.login;
         if(req.session.username === login) {
             res.send(true).status(200);
-            console.log('true: ' + req.session.username + ' / ' +  login);
         } else {
-            res.send(false).status(400);
-            console.log('false: ' + req.session.username + ' / ' +  login);
-            return;
+            res.send(false).status(200);
         }
+    } else {
+        res.send(false).status(400);
     }
 });
 
@@ -418,3 +421,22 @@ app.put('/reviews', async (req, res) => {
         res.sendStatus(401);
     }
 });
+
+// app.put('/delete-review', async (req, res) => {
+//     const { user, login } = req.body;
+
+//         let userReview = await User.findOne({login: login});
+
+//         let review = await User.findOne({reviews: user});
+    
+//         review.user = null;
+//         review.comment = null;
+//         review.raiting = null;
+    
+//         try {
+//             await review.save();
+//             res.sendStatus(201);
+//         } catch {
+//             res.sendStatus(400);
+//         }
+// });

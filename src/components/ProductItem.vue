@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         async loadProduct() {
-            let res = await axios.get(`/product?id=${this.$route.query.id}`);
+            let res = await axios.get(`/product?id=${this.$route.params.id}`);
             this.product = res.data;
             this.dayJs();
             this.check();
@@ -45,7 +45,7 @@ export default {
         async addToCart() {
             try {
                 await axios.post('/cart', {
-                    id: this.product._id,
+                    id: this.$route.params.id,
                     title: this.product.title,
                     description: this.product.description,
                     brand: this.product.brand,
@@ -68,7 +68,7 @@ export default {
             try {
                 await axios.delete('/products', {
                     params: {
-                        id: this.product._id,
+                        id: this.$route.params.id,
                     }
                 });
                 this.$router.push('/');
@@ -104,7 +104,7 @@ export default {
                 <span class="badge text-bg-secondary w-fit">Б/У</span>
             </span>
             <span class="d-flex align-items-center gap-2">Автор:
-                <span class="w-fit"><router-link :to="`/Profile?login=${product.author}`">{{ product.author }}</router-link></span>
+                <span class="w-fit" @click="this.$router.push({name: 'Profile', params: {login: product.author}})"><a href="#">{{ product.author }}</a></span>
             </span>
             <span>В наличии: {{ product.countHas }}</span>
             <b class="fs-3">{{ product.price }} рублей</b>
@@ -120,7 +120,7 @@ export default {
                     <span class="visually-hidden">Выберите: </span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button type="button" class="dropdown-item"><router-link :to="`/UpdateProduct?id=${product._id}`">Редактировать</router-link></button></li>
+                    <li><button type="button" class="dropdown-item"><router-link :to="`/UpdateProduct/${this.product._id}`">Редактировать</router-link></button></li>
                     <li><button type="button" class="dropdown-item fw-semibold" @click="deleteProduct">Удалить</button></li>
                 </ul>
             </div>
@@ -130,8 +130,8 @@ export default {
 </template>
 
 <style scoped>
-router-link:hover, a {
-    color: #000;
+.rl:hover {
+    color: #fff !important;
 }
 .card-container {
     min-height: calc(100vh - 325px);

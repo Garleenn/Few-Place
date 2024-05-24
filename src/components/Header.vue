@@ -36,7 +36,7 @@ export default {
             <ul class="d-flex gap-5 list-unstyled mb-0">
                 <li class="fs-5 my-auto"><routerLink to="/">Главная</routerLink></li>
                 <li v-if="this.user" class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
-                <li v-if="this.user" class="fs-5"><routerLink :to="`/Profile?login=${user.login}`">Профиль</routerLink></li>
+                <li v-if="this.user" class="fs-5"><routerLink :to="`/Profile/${user.login}`">Профиль</routerLink></li>
                 <li v-else class="fs-5"><routerLink to="/Enter"><button>Войти</button></routerLink></li>
             </ul>
         </nav>
@@ -53,7 +53,7 @@ export default {
                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
                     <li class="fs-5 my-auto"><routerLink to="/">Главная</routerLink></li>
                     <li v-if="this.user" class="fs-5"><routerLink to="/Cart">Корзина</routerLink></li> 
-                    <li v-if="this.user" class="fs-5"><routerLink :to="`/Profile?login=${user.login}`">Профиль</routerLink></li>
+                    <li v-if="this.user" class="fs-5"><routerLink :to="`/Profile/${user.login}`">Профиль</routerLink></li>
                     <li v-else class="fs-5"><routerLink to="/Enter"><button>Войти</button></routerLink></li>
                 </ul>
             </div>

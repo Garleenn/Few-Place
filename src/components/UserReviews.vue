@@ -65,9 +65,17 @@ export default {
                     login: this.$route.params.login,
                 });
                 this.error = ``;
+                this.loadUser();
             } catch(err) {
                 this.error = err;
             }
+        },
+
+        async deleteReview(review) {
+            await axios.put('/delete-review', {
+                user: review.user,
+                login: this.$route.params.login,
+            });
         }
     }
 }
@@ -115,6 +123,9 @@ export default {
                         <i class="mb-0">Оценка: {{ review.raiting }}</i>
                         <span class="fs-5 text-muted">{{ review.comment }}</span>
                     </div>
+                    <button class="btn btn-closes btn-outline-danger w-fit" @click="deleteReview(review)">
+                        <img src="../assets/cose.svg" alt="Close">
+                    </button>
                 </div>
             </div>
             <div v-else>
@@ -127,6 +138,18 @@ export default {
 </template>
 
 <style scoped>
+.btn-closes {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.btn-closes img {
+  width: 30px !important;
+  height: 30px !important;
+  height: fit-content;
+}
+
 router-link:hover {
     color: #000 !important;
 }

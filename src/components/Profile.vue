@@ -23,19 +23,19 @@ export default {
     mounted() {
         this.loadUser();
         this.loadProducts();
-        this.check();
     },
     methods: {
         async loadProducts() {
-            let res = await axios.get(`/myProducts?author=${this.$route.query.login}`);
+            let res = await axios.get(`/myProducts?author=${this.$route.params.login}`);
             this.products = res.data;
+            this.check();
         },
 
         async loadUser() {
             try {
                 let res = await axios.get(`/user`, {
                     params: {
-                        login: this.$route.query.login,
+                        login: this.$route.params.login,
                     }
                 });
                 this.user = res.data;
@@ -53,7 +53,7 @@ export default {
         async check() {
             let res = await axios.get('/check', {
                 params: {
-                    login: this.$route.query.login
+                    login: this.$route.params.login
                 }
             });
 
@@ -83,9 +83,9 @@ export default {
                 <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
                     <ul class="ps-0 gap-1 d-flex flex-column">
                         <li class="fw-bold mb-1">Действия: </li>
-                        <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные
+                        <li><router-link :to="`/UpdateProfile/${user.login}`">Изменить данные
                                 профиля</router-link></li>
-                        <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать объявление</router-link>
+                        <li><router-link to="/CreateProduct">Создать объявление</router-link>
                         </li>
                         <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
                         <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
@@ -106,9 +106,9 @@ export default {
                     </div>
                     <div class="offcanvas-body">
                         <ul class="ps-0 gap-1 d-flex flex-column">
-                            <li><router-link :to="`/UpdateProfile?login=${user.login}`">Изменить данные
+                            <li><router-link :to="`/UpdateProfile/${user.login}`">Изменить данные
                                     профиля</router-link></li>
-                            <li><router-link :to="`/CreateProduct?author=${user.login}`">Создать
+                            <li><router-link to="/CreateProduct">Создать
                                     объявление</router-link></li>
                             <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
                             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
@@ -120,7 +120,7 @@ export default {
             </div>
 
         </div>
-        <div class="right-side ms-5">
+        <div class="right-side ms-5 w-100">
             <div class="about-block p-3 border border-2 border-dark rounded-3 fs-5 mb-3">
                 <ul class="d-flex flex-column gap-2">
                     <li>Всем привет! Меня зовут <b>{{ user.login }}!</b></li>
@@ -136,7 +136,7 @@ export default {
             <h2>Мои объявления: </h2>
             <div class="d-flex justify-content flex-wrap gap-3" v-if="this.products.length != 0">
                 <div class="card d-flex flex-column gap-3" v-for="product in products">
-                    <router-link :to="`/Product?id=${product._id}`">
+                    <div @click="this.$router.push({name: 'Product', params: {id: product._id}})">
                         <div class="image-block text-center mx-auto"><img class="mx-auto my-auto" :src="product.image"
                                 :alt="product.title"></div>
                         <div class="product-info d-flex flex-column gap-1">
@@ -148,7 +148,7 @@ export default {
                             </div>
                             <b class="fs-5">{{ product.price }} руб.</b>
                         </div>
-                    </router-link>
+                    </div>
                 </div>
             </div>
             <div v-else>
@@ -188,7 +188,7 @@ router-link:hover {
 
 .card {
     transition: all 300ms;
-    max-width: 23.85%;
+    max-width: 23.75%;
 }
 
 .card:hover,

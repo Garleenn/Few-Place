@@ -17,6 +17,8 @@ export default {
 
             error: ``,
             is1: false, is2: false,
+
+            isCheck: false
         }
     }, 
     mounted() {
@@ -26,9 +28,11 @@ export default {
         async loadUser() {
             let res = await axios.get('/user', {
                 params: {
-                    login: this.$route.query.login
+                    login: this.$route.params.login
                 }
             });
+
+            this.check();
 
             this.login = res.data.login;
             this.email = res.data.email;
@@ -53,7 +57,7 @@ export default {
                         role: this.role,
                     });
                     this.error = 'Данные изменены!';
-                    this.$router.push(`/Profile?login=${this.login}&amI=true`);
+                    this.$router.push(`/Profile/${this.login}`);
                     
                 } catch(err) {
                     this.error = `Произошла ошибка ${err} Логин и почта должна быть уникальными!`;
@@ -61,14 +65,24 @@ export default {
             } else {
                 this.error = 'Пароль неверен!';
             }
-        }
+        },
+
+        async check() {
+            let res = await axios.get('/check', {
+                params: {
+                    login: this.$route.params.login
+                }
+            });
+
+            this.isCheck = res.data;
+        },
     }
 }
 </script>
 
 <template>
 <Header />
-<form class="log-container container border border-dark rounded-4 p-4 d-flex flex-column align-items-center" @submit.prevent="updProfile">
+<form v-if="this.isCheck" class="log-container container border border-dark rounded-4 p-4 d-flex flex-column align-items-center" @submit.prevent="updProfile">
     <h2 class="mb-5">Редактировать профиль</h2>
     <div class="mb-3">
         <label class="form-label">Ваш логин: </label>
