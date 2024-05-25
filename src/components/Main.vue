@@ -49,7 +49,7 @@ export default {
             });
             this.products = res.data;
             if(this.products.length == 0) {
-                this.empty = 'По данным критериям товаров пока нет, но вы можете их добавить)';
+                this.empty = 'Данных товаров пока нет, но вы можете их добавить)';
             } else {
                 this.empty = ``;
             }

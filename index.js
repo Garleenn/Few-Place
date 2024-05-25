@@ -477,3 +477,11 @@ app.put('/cart-delete', async (req, res) => {
         res.sendStatus(400);
     }
 });
+
+app.get('/in-session', async (req, res) => {
+    if(req.session.username) {
+        res.send(true).status(200);
+    } else {
+        res.send(false).status(404);
+    }
+});

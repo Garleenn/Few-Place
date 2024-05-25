@@ -15,6 +15,8 @@ export default {
             raiting: null,
 
             isCheck: false,
+
+            inSession: null,
         }
     },
 
@@ -34,6 +36,7 @@ export default {
                 });
                 this.user = res.data;
                 this.reviews = res.data.reviews;
+                this.isInSession();
             } catch (err) {
                 this.error = err;
             }
@@ -76,7 +79,12 @@ export default {
                 id: review._id,
             });
             this.loadUser();
-        }
+        },
+
+        async isInSession() {
+            let res = await axios.get('/in-session');
+            this.inSession = res.data;
+        },
     }
 }
 </script>
@@ -95,7 +103,7 @@ export default {
         </div>
         <hr class="d-none">
         <div class="right-side ms-5">
-            <form class="send d-flex flex-column mb-3" @submit.prevent="addReview" v-if="this.isCheck == false && this.userNow">
+            <form class="send d-flex flex-column mb-3" @submit.prevent="addReview" v-if="this.isCheck == false && this.userNow && this.inSession">
                 <router-link :to="`/Profile/${this.userNow.login}`" class="image-block d-flex gap-3 align-items-center mb-2">
                     <img class="my-auto rounded-circle" :src="userNow.avaImage" :alt="userNow.login">
                     <h5 class="mb-2">{{ userNow.login }}</h5>

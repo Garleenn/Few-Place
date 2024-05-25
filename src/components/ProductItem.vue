@@ -15,6 +15,8 @@ export default {
             isAdded: false,
 
             isCheck: false,
+
+            inSession: null,
         }
     },
     mounted() {
@@ -26,6 +28,7 @@ export default {
             this.product = res.data;
             this.dayJs();
             this.check();
+            this.isInSession();
         },
 
         async check() {
@@ -38,23 +41,28 @@ export default {
         },
 
         async addToCart() {
-            try {
-                await axios.put('/cart-post', {
-                    id: this.$route.params.id,
-                    title: this.product.title,
-                    description: this.product.description,
-                    brand: this.product.brand,
-                    price: this.product.price,
-                    category: this.product.category,
-                    image: this.product.image,
-                    isGood: this.product.isGood,
-                    countHas: this.product.countHas,
-                });
-                this.isAdded = true;
-                this.inCart = 'Добавленно!'
-            } catch (err) {
-                this.isAdded = true;
-                this.inCart = 'Товар уже в корзине!'
+            if(this.inSession) {
+                try {
+                    await axios.put('/cart-post', {
+                        id: this.$route.params.id,
+                        title: this.product.title,
+                        description: this.product.description,
+                        brand: this.product.brand,
+                        price: this.product.price,
+                        category: this.product.category,
+                        image: this.product.image,
+                        isGood: this.product.isGood,
+                        countHas: this.product.countHas,
+                    });
+                    this.isAdded = true;
+                    this.inCart = 'Добавленно!';
+                } catch (err) {
+                    this.isAdded = true;
+                    this.inCart = 'Товар уже в корзине!';
+                    this.error = `Невозможно добавить товар! Код ошибки: ${err.response.status}`;
+                }
+            } else {
+                this.inCart = 'Невозможно добавить товар, сначала авторизуйтесь!';
                 this.error = `Невозможно добавить товар! Код ошибки: ${err.response.status}`;
             }
         },
@@ -75,7 +83,12 @@ export default {
         dayJs() {
             let day = dayjs(this.product.createdAt).format('DD.MM.YYYY в HH:mm');
             this.product.createdAt = day;
-        }
+        },
+
+        async isInSession() {
+            let res = await axios.get('/in-session');
+            this.inSession = res.data;
+        },
     }
 }
 </script>

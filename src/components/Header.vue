@@ -35,7 +35,7 @@ export default {
 
 <template>
     <div class="nav-container px-5 py-5 d-flex justify-content-between border-bottom border-dark align-items-center mb-5">
-        <routerLink class="rll" to="/"><img role="button" class="me-5" src="../assets/favicon.ico" alt="Logo"></routerLink>
+        <routerLink class="rll" to="/"><img role="button" class="me-5" src="../assets/Logo.png" alt="Logo"></routerLink>
         <form @submit.prevent="sendtitle" class="form-container d-flex gap-3">
             <input v-model="title" type="search" placeholder="Найти товар...">
             <button type="submit" class="btn btn-outline-success">Найти</button>
@@ -70,6 +70,11 @@ export default {
 </template>
 
 <style scoped>
+.rll img {
+    width: 60px !important;
+    height: 60px !important;
+}
+
 .nav-container img {
     width: 35px;
     height: 35px;
