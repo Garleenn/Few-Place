@@ -63,15 +63,15 @@ export default {
             this.products = res.data;
         },
         productsTitle(title) {
-            if(title.length != 0) {
-                this.title = title;
-                this.empty = ``;
-                this.filterProducts();
-            } else {
-                this.empty = 'По данному запросу товаров пока нет, но вы можете их добавить)';
-                this.title = null;
-                this.filterProducts();
-            }
+                if(title.length != 0) {
+                    this.title = title;
+                    this.empty = ``;
+                    this.filterProducts();
+                } else {
+                    this.empty = 'По данному запросу товаров пока нет, но вы можете их добавить)';
+                    this.title = null;
+                    this.filterProducts();
+                }
         }
     }
 }
@@ -151,7 +151,7 @@ export default {
                 </div>
             </div>
             <div class="pagination d-flex gap-2 justify-content-center mt-4">
-                <button @click="filterProducts(0)" class="btn btn-outline-secondary">1</button>
+                <button @click="filterProducts(0)" class="btn btn-outline-secondary">1</button> <!-- Только 10, тк наглядно -->
                 <button @click="filterProducts(10)" class="btn btn-outline-secondary">2</button>
                 <button @click="filterProducts(20)" class="btn btn-outline-secondary">3</button>
                 <button @click="filterProducts(30)" class="btn btn-outline-secondary">4</button>
@@ -192,6 +192,10 @@ router-link:hover, a:hover {
 .main-container>button {
     margin-left: 20px !important;
     transition: all 300ms;
+}
+
+.pagination button {
+    width: 36px !important;
 }
 
 @media (min-width: 1624px) {

@@ -93,7 +93,7 @@ export default {
                 </div>
             </div>
         </div>
-
+        <hr class="d-none">
         <div class="right-side ms-5">
             <form class="send d-flex flex-column mb-3" @submit.prevent="addReview" v-if="this.isCheck == false && this.userNow">
                 <router-link :to="`/Profile/${this.userNow.login}`" class="image-block d-flex gap-3 align-items-center mb-2">
@@ -159,8 +159,8 @@ router-link img, .image-block img {
 }
 
 .info-block img {
-    max-width: 60px !important;
-    max-height: 60px !important;
+    width: 60px !important;
+    height: 60px !important;
 }
 
 .image-block {
@@ -177,12 +177,15 @@ router-link img, .image-block img {
 .card {
     transition: all 300ms;
     width: 100%;
-    padding-right: 100px;
 }
 
 .card:hover {
     transform: translateY(-12px);
     color: #000 !important;
+}
+
+.product-info span {
+    word-break: keep-all; 
 }
 
 @media (max-width: 1224px) {
@@ -214,6 +217,7 @@ router-link img, .image-block img {
 
     .left-side {
         border: none !important;
+        padding: 0 !important;
     }
 
     .right-menu-btn {
@@ -222,6 +226,14 @@ router-link img, .image-block img {
 
     .wrapper-window {
         display: flex;
+    }
+
+    hr {
+        display: block !important;
+    }
+
+    .product-info span {
+        font-size: 16px !important;
     }
 }
 </style>

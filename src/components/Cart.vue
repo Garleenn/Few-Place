@@ -152,8 +152,8 @@ a:hover {
   }
   .btn-closes {
     position: absolute;
-    top: 7px !important;
-    left: 7px !important;
+    right: 7px !important;
+    bottom: 7px !important;
     background-color: #fff;
     height: fit-content !important;
   }

@@ -99,4 +99,10 @@ export default {
     right: 2px;
     font-size: 14px;
 }
+
+@media (max-width: 960px) {
+    .container {
+        padding: 20px 0 !important;
+    }
+}
 </style>

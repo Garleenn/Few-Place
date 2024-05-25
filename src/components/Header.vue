@@ -20,6 +20,14 @@ export default {
             let res = await axios.get('/session');
             this.user = res.data;
         },
+
+        sendtitle() {
+            if(this.$route.name != 'Main') {
+                this.$router.push('/');
+            } else {
+                this.$emit('productsTitle', this.title);
+            }
+        }
     }
 }
 </script>
@@ -27,8 +35,8 @@ export default {
 
 <template>
     <div class="nav-container px-5 py-5 d-flex justify-content-between border-bottom border-dark align-items-center mb-5">
-        <routerLink to="/"><img role="button" class="me-5" src="../assets/favicon.ico" alt="Logo"></routerLink>
-        <form @submit.prevent="$emit('productsTitle', this.title)" class="form-container d-flex gap-3">
+        <routerLink class="rll" to="/"><img role="button" class="me-5" src="../assets/favicon.ico" alt="Logo"></routerLink>
+        <form @submit.prevent="sendtitle" class="form-container d-flex gap-3">
             <input v-model="title" type="search" placeholder="Найти товар...">
             <button type="submit" class="btn btn-outline-success">Найти</button>
         </form>
@@ -74,6 +82,7 @@ export default {
 @media (max-width:900px) {
     .nav-container {
         padding: 20px 15px !important;
+        margin-bottom: 15px !important;
     }
     .right-menu-btn {
         display: block !important;
@@ -86,6 +95,9 @@ export default {
     }
     .nav-container>img {
         margin-right: 10px !important;
+    }
+    .rll img {
+        margin-right: 18px !important;
     }
 }
 </style>

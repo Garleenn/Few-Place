@@ -88,23 +88,6 @@ export default {
                         <h2 class="mb-0">{{ user.login }}</h2>
                     </div>
                 </div>
-                <div class="mt-2 d-flex justify-content-cener" @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
-                        <a href="#" class="fw-bold">Мои отзывы ></a>
-                </div>
-                <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
-                    <ul class="ps-0 gap-1 d-flex flex-column">
-                        <li class="fw-bold mb-1">Действия: </li>
-                        <li><router-link :to="`/UpdateProfile/${user.login}`">Изменить данные
-                                профиля</router-link></li>
-                        <li><router-link to="/CreateProduct">Создать объявление</router-link>
-                        </li>
-                        <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
-                        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-                                target="_blank">Сообщить об ошибке</a></li>
-                        <li role="button" @click="logout" class="text-danger">Выйти из аккаунта</li>
-                    </ul>
-                </nav>
-
                 <button class="btn right-menu-btn d-none" type="button" data-bs-toggle="offcanvas" v-if="isCheck"
                     data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><img src="../assets/close.svg" alt="x">
                 </button>
@@ -125,14 +108,32 @@ export default {
                             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
                                     target="_blank">Сообщить об ошибке</a></li>
                             <li @click="logout" class="text-danger">Выйти из аккаунта</li>
-                            <div class="del" v-if="this.isCheck">
+                            <div v-if="this.isCheck">
                                 <button @click="deleteAccaunt" class="btn btn-outline-danger" type="button">Удалить аккаунт</button>
                             </div>
                         </ul>
                     </div>
                 </div>
+
+                <div class="rev mt-2 d-flex" @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
+                        <a href="#" class="fw-bold">Мои отзывы ></a>
+                </div>
+
+                <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
+                    <ul class="ps-0 gap-1 d-flex flex-column">
+                        <li class="fw-bold mb-1">Действия: </li>
+                        <li><router-link :to="`/UpdateProfile/${user.login}`">Изменить данные
+                                профиля</router-link></li>
+                        <li><router-link to="/CreateProduct">Создать объявление</router-link>
+                        </li>
+                        <li><a href="https://vk.com/ivangorbenko52" target="_blank">Связаться с нами</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+                                target="_blank">Сообщить об ошибке</a></li>
+                        <li role="button" @click="logout" class="text-danger">Выйти из аккаунта</li>
+                    </ul>
+                </nav>
             </div>
-            <div class="del" v-if="this.isCheck">
+            <div class="del mt-2" v-if="this.isCheck">
                 <button @click="deleteAccaunt" class="btn btn-outline-danger" type="button">Удалить аккаунт</button>
             </div>
         </div>
@@ -141,6 +142,9 @@ export default {
                 <ul class="d-flex flex-column gap-2">
                     <li>Всем привет! Меня зовут <b>{{ user.login }}!</b></li>
                     <li>Я тут <b>{{ user.role }}</b>!</li>
+                    <li class="rev-sm d-flex d-none" @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
+                        <a href="#" class="fw-bold">Посмотрите мои отзывы ></a>
+                    </li>
                     <li>Надеюсь произвести на вас впечатление!</li>
                 </ul>
             </div>
@@ -220,7 +224,7 @@ router-link:hover {
 
 @media (max-width: 1224px) {
     .card {
-        transition: all 300ms;
+        max-width: 100% !important;
         width: 100% !important;
     }
 
@@ -255,6 +259,18 @@ router-link:hover {
 
     .wrapper-window {
         display: flex;
+    }
+
+    .del {
+        display: none;
+    }
+
+    .rev-sm {
+        display: flex !important;
+    }
+
+    .rev {
+        display: none !important;
     }
 }
 </style>
