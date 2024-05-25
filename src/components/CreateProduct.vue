@@ -1,12 +1,8 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 import e from 'cors';
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
-    components: { Header, Footer },
     data() {
         return {
             title: ``,
@@ -49,7 +45,6 @@ export default {
 </script>
 
 <template>
-<Header />
     <div class="content">
         <form @submit.prevent="createProduct"
             class="container px-5 py-3 border border-2 rounded-3 d-flex flex-column align-items-center">
@@ -88,7 +83,6 @@ export default {
             </div>
         </form>
     </div>
-<Footer />
 </template>
 
 <style scoped>

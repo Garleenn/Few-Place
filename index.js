@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(session({
     secret: "6iKfU6KQQqPf4GhPkV17",
     saveUninitialized: true,
-    resave: false,
+    resave: true,
     rolling: false,
     cookie: { maxAge: 600000000000 }
 }));
@@ -85,6 +85,8 @@ app.get('/products', async (req, res) => {
     const sortData = Number(req.query.sortData); // по дате
     const sPrice = Number(req.query.sPrice); // цена от...
     const dPrice = Number(req.query.dPrice); // цена до...
+
+    const skip = Number(req.query.skip); // пагинация
     
     const asNew = req.query.asNew; // Б\У или новое
     const category = req.query.category; // категория
@@ -112,7 +114,7 @@ app.get('/products', async (req, res) => {
         search.price = {$gte: sPrice, $lte: dPrice};
     }
 
-    let data = await Product.find(search).sort(sorting).limit(30);
+    let data = await Product.find(search).sort(sorting).limit(10).skip(skip);
     res.send(data).status(200);
 });
 
@@ -188,68 +190,6 @@ app.get('/product', async (req, res) => {
     res.send(data).status(200);
 });
 
-// Корзина товаров
-
-const cartSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    description: String,
-    price: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 20000000
-    },
-    category: String,
-    image: String,
-    isGood: Boolean,
-    idProduct: String,
-    brand: String,
-    countHas: Number,
-});
-
-let Cart = mongoose.model('cart', cartSchema);
-
-app.get('/cart', async (req, res) => {
-    const data = await Cart.find();
-    res.send(data).status(200);
-});
-
-app.post('/cart', async (req, res) => {
-    const { id, title, description, price, category, image, isGood, brand, countHas } = req.body;
-
-    let cardItem = new Cart({
-        idProduct: id,
-        title: title,
-        description: description,
-        price: price,
-        category: category,
-        image: image,
-        isGood: isGood,
-        brand: brand,
-        countHas: countHas
-    });
-
-    try {
-        await cardItem.save();
-        res.sendStatus(201);
-    } catch(err) {
-        res.sendStatus(400);
-    }
-});
-
-app.delete('/cart', async (req, res) => {
-    let id = req.query.id;
-
-    try {
-        await Cart.deleteOne({_id: id});
-        res.sendStatus(200);
-    } catch(err) {
-        res.sendStatus(400);
-    }
-});
 
 //Вход пользователей и их регистрация
 
@@ -292,7 +232,26 @@ const userSchema = new mongoose.Schema({
             min: 1,
             max: 5,
         }
-    }]
+    }],
+    cart: [{
+        title: {
+            type: String,
+            required: true,
+        },
+        description: String,
+        price: {
+            type: Number,
+            required: true,
+            min: 1,
+            max: 20000000
+        },
+        category: String,
+        image: String,
+        isGood: Boolean,
+        idProduct: String,
+        brand: String,
+        countHas: Number,
+    }],
 }, {
     timestamps: true
 });
@@ -300,12 +259,15 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('user', userSchema);
 
 app.get('/login', async (req, res) => {
-    const login = req.query.login;
+    const { login, password } = req.query;
     const data = await User.findOne({login: login});
     if(data) {
-        req.session.username = login;
-        // req.session.save();
-        res.send(data).status(200);
+        if(data.password == password) {
+            req.session.username = login;
+            res.send(data).status(200);
+        } else {
+            res.sendStatus(401);
+        }
     } else {
         res.sendStatus(400);
     }
@@ -332,15 +294,29 @@ app.post('/users', async (req, res) => {
         avaImage: "https://yt3.googleusercontent.com/ytc/AIf8zZTOqVAj1luCxSiohOyyV5yKwi0DDFy6PruvGoCEeg=s900-c-k-c0x00ffffff-no-rj",
         role: role,
         reviews: [],
+        cart: [],
     });
-
+    
     try {
-        // req.session.save();
         await newUser.save();
         req.session.username = newUser.login;
         res.sendStatus(201);
     } catch {
         res.sendStatus(400);
+    }
+});
+
+app.delete('/users', async (req, res) => {
+    const login = req.query.login;
+    if(req.session.username == login) {
+        try {
+            await User.deleteOne({login: login});
+            res.sendStatus(201);
+        } catch {
+            res.sendStatus(400);
+        }
+    } else {
+        res.sendStatus(404);
     }
 });
 
@@ -378,14 +354,17 @@ app.get('/logout', async (req, res) => {
 });
 
 app.put('/users', async (req, res) => {
-    const { id, login, email, role } = req.body;
-
+    const { id, login, email, role, avaImage } = req.body;
+    
     let user = await User.findOne({_id: id});
-
+    
     user.login = login;
     user.email = email;
     user.role = role;
-
+    if(avaImage) {
+        user.avaImage = avaImage;
+    }
+    
     try {
         await user.save();
         res.sendStatus(201);
@@ -396,12 +375,12 @@ app.put('/users', async (req, res) => {
 
 app.put('/reviews', async (req, res) => {
     const { comment, raiting, login } = req.body;
-
+    
     let userSession = await User.findOne({login: req.session.username});
-
+    
     if(login != req.session.username) {
         let user = await User.findOne({login: login});
-    
+        
         user.reviews.push({
             user: {
                 login: userSession.login,
@@ -410,7 +389,7 @@ app.put('/reviews', async (req, res) => {
             comment: comment,
             raiting: raiting,
         });
-    
+        
         try {
             await user.save();
             res.sendStatus(201);
@@ -422,21 +401,79 @@ app.put('/reviews', async (req, res) => {
     }
 });
 
-// app.put('/delete-review', async (req, res) => {
-//     const { user, login } = req.body;
-
-//         let userReview = await User.findOne({login: login});
-
-//         let review = await User.findOne({reviews: user});
+app.put('/delete-review', async (req, res) => {
+    const { login, id } = req.body;
     
-//         review.user = null;
-//         review.comment = null;
-//         review.raiting = null;
+    let userReview = await User.findOne({login: login});
     
-//         try {
-//             await review.save();
-//             res.sendStatus(201);
-//         } catch {
-//             res.sendStatus(400);
-//         }
-// });
+    let indexReview = userReview.reviews.findIndex((e) => e._id == id);
+
+    userReview.reviews.splice(indexReview, 1)
+    
+    try {
+        await userReview.save();
+        res.sendStatus(201);
+    } catch {
+        res.sendStatus(400);
+    }
+});
+
+// Корзина товаров
+
+app.get('/cart', async (req, res) => {
+    if(req.session.username) {
+        const user = await User.find({login: req.session.username});
+        res.send(user).status(200);
+        console.log(user);
+    } else {
+        res.sendStatus(404);
+    }
+});
+
+app.put('/cart-post', async (req, res) => {
+    const { id, title, description, price, category, image, isGood, brand, countHas } = req.body;
+
+    const user = await User.findOne({login: req.session.username});
+
+    let indexReview = user.cart.findIndex((e) => e.idProduct == id);
+    let item = user.cart[indexReview];
+
+    if(item) {
+        res.sendStatus(400);
+    } else {
+        user.cart.push({
+            idProduct: id,
+            title: title,
+            description: description,
+            price: price,
+            category: category,
+            image: image,
+            isGood: isGood,
+            brand: brand,
+            countHas: countHas,
+        });
+        try {
+            await user.save();
+            res.sendStatus(201);
+        } catch {
+            res.sendStatus(400);
+        }
+    }
+});
+
+app.put('/cart-delete', async (req, res) => {
+    const { login, id } = req.body;
+    
+    const user = await User.findOne({login: login});
+    
+    const indexCart = user.cart.findIndex((e) => e._id == id);
+
+    user.cart.splice(indexCart, 1)
+    
+    try {
+        await user.save();
+        res.sendStatus(201);
+    } catch {
+        res.sendStatus(400);
+    }
+});

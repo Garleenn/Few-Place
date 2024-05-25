@@ -1,14 +1,9 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
-
 import dayjs from 'dayjs';
 
 export default {
-    components: { Header, Footer },
     data() {
         return {
             product: {},
@@ -44,7 +39,7 @@ export default {
 
         async addToCart() {
             try {
-                await axios.post('/cart', {
+                await axios.put('/cart-post', {
                     id: this.$route.params.id,
                     title: this.product.title,
                     description: this.product.description,
@@ -86,7 +81,6 @@ export default {
 </script>
 
 <template>
-    <Header />
     <div class="card-container d-flex justify-content-center flex-row gap-5">
         <div class="img-block d-flex flex-column gap-2">
             <img class="border rounded-5 p-3" :src="product.image" :alt="product.title">
@@ -126,7 +120,6 @@ export default {
             </div>
         </div>
     </div>
-    <Footer />
 </template>
 
 <style scoped>

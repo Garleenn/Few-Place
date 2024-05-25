@@ -1,15 +1,9 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
-axios.defaults.withCredentials = true;
-
 import dayjs from 'dayjs';
 
 export default {
-    components: { Header, Footer },
     data() {
         return {
             user: {},
@@ -64,21 +58,38 @@ export default {
             let day = dayjs(this.user.createdAt).format('DD.MM.YYYY в HH:mm');
             this.user.createdAt = day;
         },
+
+        async deleteAccaunt() {
+            let result = confirm(`Вы уверены, что хотите удалить аккаунт ${this.$route.params.login}?`);
+            if(result) {
+                try {
+                    await axios.delete('/users', {
+                        params: {
+                            login: this.$route.params.login
+                        }
+                    });
+                    this.$router.push('/');
+                } catch(err) {
+                    this.error = err;
+                }
+            }
+        }
     }
 }
 </script>
 
 <template>
-    <Header />
-
     <div class="profile-container container d-flex justify-content-start" v-if="user.createdAt">
         <div class="left-side d-flex flex-column border-end p-3">
             <div class="flex-row wrapper-window align-items-center justify-content-between">
                 <div class="main-block">
                     <div class="info-block d-flex gap-2 align-items-center">
-                        <img :src="user.avaImage" :alt="user.login">
+                        <img class="rounded-circle" :src="user.avaImage" :alt="user.login">
                         <h2 class="mb-0">{{ user.login }}</h2>
                     </div>
+                </div>
+                <div class="mt-2 d-flex justify-content-cener" @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
+                        <a href="#" class="fw-bold">Мои отзывы ></a>
                 </div>
                 <nav class="d-flex flex-column mt-4" v-if="this.isCheck">
                     <ul class="ps-0 gap-1 d-flex flex-column">
@@ -114,20 +125,22 @@ export default {
                             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
                                     target="_blank">Сообщить об ошибке</a></li>
                             <li @click="logout" class="text-danger">Выйти из аккаунта</li>
+                            <div class="del" v-if="this.isCheck">
+                                <button @click="deleteAccaunt" class="btn btn-outline-danger" type="button">Удалить аккаунт</button>
+                            </div>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            <div class="del" v-if="this.isCheck">
+                <button @click="deleteAccaunt" class="btn btn-outline-danger" type="button">Удалить аккаунт</button>
+            </div>
         </div>
         <div class="right-side ms-5 w-100">
             <div class="about-block p-3 border border-2 border-dark rounded-3 fs-5 mb-3">
                 <ul class="d-flex flex-column gap-2">
                     <li>Всем привет! Меня зовут <b>{{ user.login }}!</b></li>
                     <li>Я тут <b>{{ user.role }}</b>!</li>
-                    <li @click="this.$router.push({ name: 'UserReviews', params: { login: this.$route.query.login } })">
-                        <a href="#">Посмотрите мои отзывы!</a>
-                    </li>
                     <li>Надеюсь произвести на вас впечатление!</li>
                 </ul>
             </div>
@@ -158,10 +171,18 @@ export default {
     </div>
 
     <h2 v-if="error">{{ error }}</h2>
-    <Footer />
 </template>
 
 <style scoped>
+.del {
+    position: absolute;
+    bottom: 10px;
+}
+
+.left-side {
+    position: relative;
+}
+
 router-link:hover {
     color: #000 !important;
 }
@@ -172,8 +193,8 @@ router-link:hover {
 }
 
 .info-block img {
-    max-width: 60px !important;
-    max-height: 60px !important;
+    width: 60px !important;
+    height: 60px !important;
 }
 
 .image-block {

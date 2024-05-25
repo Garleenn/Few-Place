@@ -1,11 +1,8 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3005'
+axios.defaults.baseURL = 'http://localhost:3005';
+
 export default {
-    components: { Header, Footer },
     data() {
         return {
             login: ``,
@@ -21,14 +18,11 @@ export default {
                 let res = await axios.get('/login', {
                     params: {
                         login: this.login,
+                        password: this.password,
                     },
                 });
-                if(res.data.password == this.password) {
-                    this.error = 'Вход выполнен!';
-                    this.$router.push(`/Profile/${this.login}`);
-                } else {
-                    this.error = 'Пароль неверен!';
-                }
+                this.error = 'Вход выполнен!';
+                this.$router.push(`/Profile/${this.login}`);
             } catch(err) {
                 this.error = 'Логин или пароль неверны!';
             }
@@ -38,7 +32,6 @@ export default {
 </script>
 
 <template>
-<Header />
 <form class="log-container container border border-dark rounded-4 p-4 d-flex flex-column align-items-center" @submit.prevent="LogIn">
     <h2 class="mb-5">Войдите в свой аккаунт</h2>
     <div class="mb-3 mt-5">
@@ -53,7 +46,6 @@ export default {
     <button type="submit" class="btn btn-outline-success px-5">Войти</button>
     <router-link to="/Registration" class="mt-3">Ещё нет аккаунта? Зарегистрируйтесь!</router-link>
 </form>
-<Footer />
 </template>
 
 <style scoped>

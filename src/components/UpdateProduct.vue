@@ -1,12 +1,8 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
-    components: { Header, Footer },
     data() {
         return {
             title: ``,
@@ -17,6 +13,8 @@ export default {
             isGood: false,
             brand: ``,
             countHas: 1,
+            author: ``,
+            isCheck: false,
 
             error: ``,
         }
@@ -33,14 +31,16 @@ export default {
                     }
                 });
 
-                this.title = res.data.title
-                this.description = res.data.description, 
-                this.price = res.data.price, 
-                this.category = res.data.category, 
-                this.image = res.data.image, 
-                this.isGood = res.data.isGood, 
-                this.brand = res.data.brand, 
-                this.countHas = res.data.countHas,
+                this.title = res.data.title;
+                this.description = res.data.description;
+                this.price = res.data.price; 
+                this.category = res.data.category; 
+                this.image = res.data.image; 
+                this.isGood = res.data.isGood; 
+                this.brand = res.data.brand; 
+                this.countHas = res.data.countHas;
+
+                this.check(res.data.author);
 
                 this.error = '';
             } catch (err) {
@@ -67,14 +67,23 @@ export default {
                 this.error = err;
             }
         },
+
+        async check(author) {
+            let res = await axios.get('/check', {
+                params: {
+                    login: author,
+                }
+            });
+
+            this.isCheck = res.data;
+        },
     }
 }
 </script>
 
 <template>
-<Header />
     <div class="content">
-        <form @submit.prevent="updProduct"
+        <form @submit.prevent="updProduct" v-if="this.isCheck"
             class="container px-5 py-3 border border-2 rounded-3 d-flex flex-column align-items-center">
             <h2>Изменить объявление</h2>
             <div class="mb-3">
@@ -111,7 +120,6 @@ export default {
             </div>
         </form>
     </div>
-<Footer />
 </template>
 
 <style scoped>

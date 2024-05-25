@@ -20,7 +20,7 @@ export default createRouter({
   },
   {
     name: 'Cart',
-    path: '/Cart',
+    path: '/Cart/:login',
     component: Cart
   },
   {

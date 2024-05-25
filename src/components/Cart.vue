@@ -1,14 +1,11 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
-  components: { Header, Footer },
   data() {
     return {
       products: [],
+      isCheck: false,
 
       summ: 0
     }
@@ -18,8 +15,13 @@ export default {
   },
   methods: {
     async loadCart() {
-      let res = await axios.get(`/cart`);
-      this.products = res.data;
+      let res = await axios.get(`/user`, {
+        params: {
+          login: this.$route.params.login
+        }
+      });
+      this.check();
+      this.products = res.data.cart;
       for(let i = 0; i< this.products.length; i++) {
         let item = this.products[i];
         this.summ += item.price;
@@ -27,28 +29,36 @@ export default {
     },
 
     async deleteFromCart(id) {
-      await axios.delete('/cart', {
-        params: {
-          id: id
-        }
+      await axios.put('/cart-delete', {
+          login: this.$route.params.login,
+          id: id,
       });
       this.summ = 0;
       this.loadCart();
+    },
+
+    async check() {
+        let res = await axios.get('/check', {
+            params: {
+                login: this.$route.params.login
+            }
+        });
+
+        this.isCheck = res.data;
     },
   }
 }
 </script>
 
 <template>
-  <Header />
-  <div class="cart-container mx-4">
+  <div class="cart-container mx-4" v-if="this.isCheck">
     <h2>Корзина: {{ summ }} рублей</h2>
     <hr>
     <div class="cards-container d-flex flex-column gap-3 mx-5">
       <span v-if="this.products.length == 0" class="text-muted text-2 m-5 py-5 text-center">
         Тут пока пусто, но ты можешь добавить что-нибудь в корзину и оно обязательно тут появится</span>
       <div class="card d-flex flex-row w-100 gap-5 align-items-center" v-for="product in products">
-        <router-link :to="`/Product?id=${product.idProduct}`" class="d-flex flex-row w-100 gap-5 align-items-center">
+        <router-link :to="`/Product/${product.idProduct}`" class="d-flex flex-row w-100 gap-5 align-items-center">
           <img :src="product.image" :alt="product.title">
           <div class="info-container d-flex flex-column gap-2">
             <h3 class="mb-1">{{ product.title }}</h3>
@@ -76,7 +86,6 @@ export default {
       </div>
     </div>
   </div>
-    <Footer />
 </template>
 
 <style scoped>

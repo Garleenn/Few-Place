@@ -1,12 +1,11 @@
 <script>
 import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
 
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3005'
 
 export default {
-    components: { Header, Footer },
+    components: { Header },
     data() {
         return {
             products: [],
@@ -22,6 +21,9 @@ export default {
 
             is1: false, is2: false, is3: false, is4: false, is5: false, is6: false,
             empty: ``,       
+
+
+            skip: 40,
         }
     },
     mounted() {
@@ -32,7 +34,7 @@ export default {
             let res = await axios.get('/products');
             this.products = res.data;
         },
-        async filterProducts() {
+        async filterProducts(skipa) {
             let res = await axios.get(`/products`, {
                 params: {
                     sortPrice: this.sortPrice,
@@ -42,6 +44,7 @@ export default {
                     dPrice: this.dPrice,
                     category: this.category,
                     title: this.title,
+                    skip: skipa,
                 }
             });
             this.products = res.data;
@@ -146,9 +149,16 @@ export default {
                     </div>
                     </div>
                 </div>
-        </div>
+            </div>
+            <div class="pagination d-flex gap-2 justify-content-center mt-4">
+                <button @click="filterProducts(0)" class="btn btn-outline-secondary">1</button>
+                <button @click="filterProducts(10)" class="btn btn-outline-secondary">2</button>
+                <button @click="filterProducts(20)" class="btn btn-outline-secondary">3</button>
+                <button @click="filterProducts(30)" class="btn btn-outline-secondary">4</button>
+                <button @click="filterProducts(40)" class="btn btn-outline-secondary">5</button>
+                <button @click="this.skip += 10; filterProducts(skip)" class="btn btn-outline-secondary">></button>
+            </div>
     </div>
-    <Footer />
 </template>
 
 <style lang="css" scoped>
@@ -157,6 +167,7 @@ router-link:hover, a:hover {
 }
 
 .main-container {
+    margin: 0 15px;
   min-height: calc(100vh - 360px);
 }
 

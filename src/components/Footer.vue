@@ -8,7 +8,6 @@ export default {
 }
 </script>
 
-
 <template>
         <div class="footer-container d-flex p-3 pt-4 text-4 flex-column justify-content-center mt-3">
             <ul class="d-flex align-items-center justify-content-evenly">
@@ -21,7 +20,6 @@ export default {
             <span class="text-center mt-2 text-4">Все права защищены ©</span>
         </div>
 </template>
-
 
 <style scoped>
 .footer-container {

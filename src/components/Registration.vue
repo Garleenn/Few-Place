@@ -1,11 +1,7 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3005'
 export default {
-    components: { Header, Footer },
     data() {
         return {
             login: ``,
@@ -33,7 +29,7 @@ export default {
                     this.$router.push(`/Profile/${this.login}`);
                     
                 } catch(err) {
-                    this.error = 'Логин должен быть уникальным, минимальная длинна пароля должна составлять 6 символов!';
+                    this.error = 'Логин, почта должны быть уникальными, длинна пароля должна составлять от 6 до 20 символов!';
                 }
             } else {
                 this.error = 'Пароли не совпадают';
@@ -44,7 +40,6 @@ export default {
 </script>
 
 <template>
-<Header />
 <form class="log-container container border border-dark rounded-4 p-4 d-flex flex-column align-items-center" @submit.prevent="RegIn">
     <h2 class="mb-5">Зарегистрироваться</h2>
     <div class="mb-3">
@@ -53,7 +48,7 @@ export default {
     </div>
     <div class="mb-3">
         <label class="form-label">Ваш email: </label>
-        <input type="text" class="form-control" placeholder="exemple@ya.ru" v-model="email">
+        <input type="email" class="form-control" placeholder="exemple@ya.ru" v-model="email">
     </div>
     <div class="mb-3">
         <label class="form-label">Ваш пароль: </label>
@@ -71,7 +66,6 @@ export default {
     <button type="submit" class="btn btn-outline-success px-5">Зарегистрироваться</button>
     <router-link class="mt-3" to="/Login">Уже есть аккаунт? Войдите!</router-link>
 </form>
-<Footer />
 </template>
 
 <style scoped>

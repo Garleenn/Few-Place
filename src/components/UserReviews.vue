@@ -1,11 +1,8 @@
 <script>
-import Header from '../components/Header.vue';
-import Footer from '../components/Footer.vue';
-
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3005'
+axios.defaults.baseURL = 'http://localhost:3005';
+
 export default {
-    components: { Header, Footer },
     data() {
         return {
             user: {},
@@ -66,6 +63,8 @@ export default {
                 });
                 this.error = ``;
                 this.loadUser();
+                this.comment = ``;
+                this.raiting = ``;
             } catch(err) {
                 this.error = err;
             }
@@ -73,34 +72,34 @@ export default {
 
         async deleteReview(review) {
             await axios.put('/delete-review', {
-                user: review.user,
                 login: this.$route.params.login,
+                id: review._id,
             });
+            this.loadUser();
         }
     }
 }
 </script>
 
 <template>
-    <Header />
     <div class="profile-container container d-flex justify-content-start">
         <div class="left-side d-flex flex-column border-end px-3">
             <div class="flex-row wrapper-window align-items-center justify-content-between">
                 <div class="main-block">
-                    <div class="info-block d-flex gap-2 align-items-center">
-                        <img :src="user.avaImage" :alt="user.login">
+                    <router-link class="info-block d-flex gap-2 align-items-center" :to="`/Profile/${this.user.login}`">
+                        <img class="rounded-circle" :src="user.avaImage" :alt="user.login">
                         <h2 class="mb-0">{{ user.login }}</h2>
-                    </div>
+                    </router-link>
                 </div>
             </div>
         </div>
 
         <div class="right-side ms-5">
             <form class="send d-flex flex-column mb-3" @submit.prevent="addReview" v-if="this.isCheck == false && this.userNow">
-                <div class="image-block d-flex gap-3 align-items-center mb-2">
-                    <img class="mx-auto my-auto" :src="userNow.avaImage" :alt="userNow.login">
+                <router-link :to="`/Profile/${this.userNow.login}`" class="image-block d-flex gap-3 align-items-center mb-2">
+                    <img class="my-auto rounded-circle" :src="userNow.avaImage" :alt="userNow.login">
                     <h5 class="mb-2">{{ userNow.login }}</h5>
-                </div>
+                </router-link>
                 <div class="product-info d-flex flex-column gap-1">
                     <input v-model="raiting" class="mb-0" type="number" min="1" max="5" placeholder="Оцена пользователя от 1 до 5">
                     <textarea v-model="comment" type="text" placeholder="Отзыв"></textarea>
@@ -115,15 +114,16 @@ export default {
             <div class="d-flex justify-content flex-wrap gap-3" v-if="this.reviews.length != 0">
                 <div class="card d-flex flex-column gap-3" v-for="review in reviews">
                     <!-- <router-link :to="`/Prifile?login=${review.user.login}`"> -->
-                    <div class="image-block d-flex gap-3">
-                        <img class="mx-auto my-auto" :src="review.user.avaImage" :alt="review.user.login">
+                    <router-link class="image-block d-flex flex-row align-items-center gap-3" :to="`/Profile/${review.user.login}`">
+                        <img class="my-auto rounded-circle" :src="review.user.avaImage" :alt="review.user.login">
                         <h5 class="mb-0">{{ review.user.login }}</h5>
-                    </div>
+                    </router-link>
                     <div class="product-info d-flex flex-column gap-1">
                         <i class="mb-0">Оценка: {{ review.raiting }}</i>
                         <span class="fs-5 text-muted">{{ review.comment }}</span>
                     </div>
-                    <button class="btn btn-closes btn-outline-danger w-fit" @click="deleteReview(review)">
+                    <button v-if="this.userNow.login == review.user.login" class="btn btn-closes btn-outline-danger w-fit" 
+                    @click="deleteReview(review)">
                         <img src="../assets/cose.svg" alt="Close">
                     </button>
                 </div>
@@ -133,11 +133,14 @@ export default {
             </div>
         </div>
     </div>
-
-    <Footer />
 </template>
 
 <style scoped>
+router-link img, .image-block img {
+    width: 60px !important;
+    height: 60px !important;
+}
+
 .btn-closes {
   position: absolute;
   bottom: 20px;
@@ -148,10 +151,6 @@ export default {
   width: 30px !important;
   height: 30px !important;
   height: fit-content;
-}
-
-router-link:hover {
-    color: #000 !important;
 }
 
 .profile-container {
@@ -165,9 +164,10 @@ router-link:hover {
 }
 
 .image-block {
-    width: 50px;
-    height: 50px;
+    max-width: 230px !important;
+    max-height: 60px !important;
 }
+
 
 .image-block img {
     max-width: 50px;
@@ -177,10 +177,10 @@ router-link:hover {
 .card {
     transition: all 300ms;
     width: 100%;
+    padding-right: 100px;
 }
 
-.card:hover,
-.card a {
+.card:hover {
     transform: translateY(-12px);
     color: #000 !important;
 }
