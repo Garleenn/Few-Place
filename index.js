@@ -16,7 +16,7 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 app.use(session({
-    secret: "6iKfU6KQQqPf4GhPkV17",
+    secret: "Secret)",
     saveUninitialized: true,
     resave: true,
     rolling: false,
